@@ -1,14 +1,14 @@
-import { FiHome, FiEdit, FiClock, FiSearch} from 'react-icons/fi';
-
+import { IoBarChart } from "react-icons/io5";
+import { FiEdit, FiClock, FiSearch } from 'react-icons/fi';
 
 export const links = [
   {
-    title: 'Main',
+    title: 'Sidebar',
     links: [
-      { name: 'Dashboard', icon: 'FiHome' },
-      { name: 'ManualEntry', icon: 'FiEdit' },
-      { name: 'History', icon: 'FiClock' },
-      { name: 'Identifier', icon: 'FiSearch' },
+      { name: 'Dashboard', icon: <IoBarChart /> },
+      { name: 'ManualEntry', icon: <FiEdit /> },
+      { name: 'History', icon: <FiClock /> },
+      { name: 'Identifier', icon: <FiSearch /> },
     ],
   },
 ];

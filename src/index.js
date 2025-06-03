@@ -7,7 +7,8 @@ import { ContextProvider } from './contexts/ContextProvider';
 
 //Hooking React App to Root
 ReactDOM.render(
-    <ContextProvider>
-        <App />, document.getElementById('root');
-        </ContextProvider>
-)
+  <ContextProvider>
+    <App />
+  </ContextProvider>,
+  document.getElementById('root')
+);
