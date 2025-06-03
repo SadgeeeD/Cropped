@@ -2,21 +2,22 @@ import React, { useEffect } from 'react';
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Tooltip } from 'react-tooltip';
+import { Tooltip } from 'react-tooltip'; // Assuming you have react-tooltip installed
 
 import avatar from "../data/avatar.jpg";
-import { Notification, UserProfile } from '.';
+import { Notification, UserProfile } from '.'; // Assuming these are components you want to render
 import { useStateContext } from '../contexts/ContextProvider';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <>
-    <Tooltip id={`tooltip-${title}`} place="bottom" content={title} />
+    {/* Use data-tooltip-content instead of Tooltip component for direct tooltip */}
     <button
       type="button"
       onClick={customFunc}
       style={{ color }}
       className="relative text-2xl rounded-full p-3 hover:bg-light-gray bg-white"
-      data-tooltip-id={`tooltip-${title}`}
+      data-tooltip-id="my-tooltip" // Assign a common ID for all tooltips
+      data-tooltip-content={title} // Use data-tooltip-content for the title
     >
       {icon}
       {dotColor && (
@@ -33,28 +34,32 @@ const Navbar = () => {
   const {
     activeMenu, setActiveMenu,
     isClicked, handleClick,
-    screenSize, setScreenSize
+    screenSize, setScreenSize // Make sure setScreenSize is available from context
   } = useStateContext();
 
   useEffect(() => {
-    const handleResize =  () => (window.innerWidth)
+    // Correctly update the screenSize state
+    const handleResize = () => setScreenSize(window.innerWidth); // <--- FIXED LINE
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
 
+    // Call it once immediately to set the initial size
     handleResize();
 
+    // Cleanup function
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [setScreenSize]); // Add setScreenSize to dependencies (though it's stable from context)
 
   useEffect(() => {
-    if (screenSize <= 900) {
-      setActiveMenu(false);
-    } else {
-      setActiveMenu(true);
+    // This will now correctly react to screenSize changes
+    if (screenSize !== undefined) { // Add a check to ensure screenSize is not undefined on initial render
+      if (screenSize <= 900) {
+        setActiveMenu(false);
+      } else {
+        setActiveMenu(true);
+      }
     }
-  }, [screenSize]);
-
-  
+  }, [screenSize, setActiveMenu]); // Add setActiveMenu to dependencies
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative bg-white">
@@ -73,12 +78,14 @@ const Navbar = () => {
           icon={<RiNotification3Line />}
         />
 
-        <Tooltip id="Profile" place="bottom" />
+        {/* Use a single Tooltip component from react-tooltip with a shared ID */}
+        <Tooltip id="my-tooltip" />
+
         <div
           className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
           onClick={() => handleClick('userProfile')}
-          data-tooltip-id="Profile"
-          data-tooltip-content="User Profile"
+          data-tooltip-id="my-tooltip" // Use the same ID
+          data-tooltip-content="User Profile" // Content for this specific element
         >
           <img
             className="rounded-full w-8 h-8"
