@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { AiOutlineMenu } from "react-icons/ai";
-import { RiNotification3Line } from 'react-icons/ri'
+import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
 
-import avatar from "../data/avatar.jpg"
-import { Notification, UserProfile} from '.'
-import {useStateContext} from '../contexts/ContextProvider';
+import avatar from "../data/avatar.jpg";
+import { Notification, UserProfile } from '.';
+import { useStateContext } from '../contexts/ContextProvider';
 
-const NavButton = ({ title, customFunc, icon, color, dotColor}) => 
-  (
-    <Tooltip id="tooltip-id" place="bottom" content="Menu">
+const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
+  <>
+    <Tooltip id={`tooltip-${title}`} place="bottom" content={title} />
     <button
       type="button"
       onClick={customFunc}
       style={{ color }}
-      className="relative text-xl rounded-full p-3 hover:bg-light-gray"
+      className="relative text-2xl rounded-full p-3 hover:bg-light-gray bg-white"
+      data-tooltip-id={`tooltip-${title}`}
     >
       {icon}
       {dotColor && (
@@ -25,43 +26,79 @@ const NavButton = ({ title, customFunc, icon, color, dotColor}) =>
         />
       )}
     </button>
-  </Tooltip>
-  )
+  </>
+);
 
 const Navbar = () => {
+  const {
+    activeMenu, setActiveMenu,
+    isClicked, handleClick,
+    screenSize, setScreenSize
+  } = useStateContext();
 
-  const { activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick } = useStateContext();
-   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
+  useEffect(() => {
+    const handleResize =  () => (window.innerWidth)
 
-      <NavButton title="Menu" customFunc= {() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)} color={"green"} icon={<AiOutlineMenu />} />
+    window.addEventListener('resize', handleResize)
+
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (screenSize <= 900) {
+      setActiveMenu(false);
+    } else {
+      setActiveMenu(true);
+    }
+  }, [screenSize]);
+
+  
+
+  return (
+    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative bg-white">
+      <NavButton
+        title="Menu"
+        customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
+        color="black"
+        icon={<AiOutlineMenu />}
+      />
       <div className="flex">
-        <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={ "green "} icon={<RiNotification3Line />} />
-        <Tooltip id="Profile" position="bottom">
-          <div
-            className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick('userProfile')}
-          >
-            <img
-              className="rounded-full w-8 h-8"
-              src={avatar}
-              alt="user-profile"
-            />
-            <p>
-              <span className="text-gray-400 text-14">Hi,</span>{' '}
-              <span className="text-gray-400 font-bold ml-1 text-14">
-                Michael
-              </span>
-            </p>
-            <MdKeyboardArrowDown className="text-gray-400 text-14" />
-          </div>
-        </Tooltip>
+        <NavButton
+          title="Notification"
+          dotColor="rgb(254, 201, 15)"
+          customFunc={() => handleClick('notification')}
+          color="black"
+          icon={<RiNotification3Line />}
+        />
 
-        {isClicked.notification && (<Notification />)}
-        {isClicked.userProfile && (<UserProfile />)}
+        <Tooltip id="Profile" place="bottom" />
+        <div
+          className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+          onClick={() => handleClick('userProfile')}
+          data-tooltip-id="Profile"
+          data-tooltip-content="User Profile"
+        >
+          <img
+            className="rounded-full w-8 h-8"
+            src={avatar}
+            alt="user-profile"
+          />
+          <p>
+            <span className="text-gray-400 text-sm">Hi,</span>{' '}
+            <span className="text-gray-400 font-bold ml-1 text-sm">
+              Michael
+            </span>
+          </p>
+          <MdKeyboardArrowDown className="text-gray-400 text-sm" />
+        </div>
+
+        {isClicked.notification && <Notification />}
+        {isClicked.userProfile && <UserProfile />}
       </div>
     </div>
   );
 };
 
-export default Navbar
+export default Navbar;

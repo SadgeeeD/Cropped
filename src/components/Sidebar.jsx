@@ -9,13 +9,13 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = () => 
   {
-  const { activeMenu, setActiveMenu } = useStateContext();
+  const { activeMenu, setActiveMenu, screenSize, setScreenSize } = useStateContext();
 
-  // const handleCloseSideBar = () => {
-  //   if (activeMenu !== undefined && screenSize <= 900) {
-  //     setActiveMenu(false);
-  //   }
-  // };
+  const handleCloseSideBar = () => {
+    if (activeMenu !== undefined && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
 
 const activeLink =
   'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-white bg-green-500 m-2';
@@ -56,7 +56,7 @@ const normalLink =
                   <NavLink
                     to={`/${link.name}`}
                     key={link.name}
-                    onClick={() => {}}
+                    onClick={handleCloseSideBar}
                     // style={({ isActive }) => ({
                     //   backgroundColor: isActive ? currentColor : '',
                     // })}
