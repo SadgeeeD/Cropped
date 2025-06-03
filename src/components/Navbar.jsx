@@ -4,6 +4,9 @@ import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Tooltip } from 'react-tooltip'; // Assuming you have react-tooltip installed
 
+import { useRef } from 'react'; // ADD THIS LINE
+import debounce from 'lodash.debounce'; // ADD THIS LINE
+
 import avatar from "../data/avatar.jpg";
 import { Notification, UserProfile } from '.'; // Assuming these are components you want to render
 import { useStateContext } from '../contexts/ContextProvider';
@@ -37,18 +40,28 @@ const Navbar = () => {
     screenSize, setScreenSize // Make sure setScreenSize is available from context
   } = useStateContext();
 
+  const debouncedSetScreenSize = useRef(
+    debounce((width) => {
+      setScreenSize(width);
+    }, 200) // Debounce by 200ms. Adjust this delay as needed.
+  ).current;
+
   useEffect(() => {
-    // Correctly update the screenSize state
-    const handleResize = () => setScreenSize(window.innerWidth); // <--- FIXED LINE
+    // CHANGE THIS LINE
+    const handleResize = () => {
+      debouncedSetScreenSize(window.innerWidth);
+    };
 
     window.addEventListener('resize', handleResize);
 
-    // Call it once immediately to set the initial size
-    handleResize();
+    // CHANGE THIS LINE
+    setScreenSize(window.innerWidth); // Call setScreenSize immediately on mount
 
-    // Cleanup function
-    return () => window.removeEventListener('resize', handleResize);
-  }, [setScreenSize]); // Add setScreenSize to dependencies (though it's stable from context)
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      debouncedSetScreenSize.cancel(); // ADD THIS LINE for cleanup
+    };
+  }, [setScreenSize, debouncedSetScreenSize]);
 
   useEffect(() => {
     // This will now correctly react to screenSize changes
@@ -95,7 +108,7 @@ const Navbar = () => {
           <p>
             <span className="text-gray-400 text-sm">Hi,</span>{' '}
             <span className="text-gray-400 font-bold ml-1 text-sm">
-              Michael
+              Kira
             </span>
           </p>
           <MdKeyboardArrowDown className="text-gray-400 text-sm" />
