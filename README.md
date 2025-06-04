@@ -57,10 +57,11 @@ The goal of this project is to build an interactive web application that:
 - Git
 
 ### 👥 Team Members
-Name	Role
-Darren Web Developer & ML Engineer
-Ethan 	App Developer & Database Dev
-Damien	Hardware Engineer
+|Name     |	Role                              |
+|---------|-----------------------------------|
+| Darren  |Web Developer & ML Engineer        |
+| Ethan   |App Developer & Database Dev       |
+| Damien  |	Hardware Engineer                 |
 
 
 ### 📄 License
