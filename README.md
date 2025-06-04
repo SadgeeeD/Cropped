@@ -1,6 +1,6 @@
 # Rooftop Garden Monitoring System 🌿
 
-## 📚 Final Year Project — Temasek Polytechnic, School of Informatics & IT
+## 📚 Final Year Project — Temasek Polytechnic, School of Engineering
 
 This project is a smart monitoring system for rooftop gardens, combining real-time data visualization, manual data entry, and machine learning-based image classification to assist in sustainable urban agriculture.
 
