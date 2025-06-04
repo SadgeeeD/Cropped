@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/API';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
+//Pictures
+import leaf_icon from "../data/leaf_icon.svg";
+import leaf1  from "../data/leaf1.jpg";
+import leaf2  from "../data/leaf2.jpg";
+import leaf3  from "../data/leaf3.jpg";
+
+
 function Dashboard() {
   const [data, setData] = useState({
     farms: [],
@@ -69,12 +76,12 @@ function Dashboard() {
         <div className="bg-white p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2">Healthy</h2>
           <div className="flex justify-center items-center mb-4">
-            <img src="/leaf_icon.svg" alt="Healthy Leaf" className="w-16 h-16" />
+            <img src= { leaf_icon } alt="Healthy Leaf" className="w-16 h-16" />
           </div>
           <div className="grid grid-cols-3 gap-2">
-            <img src="/leaf1.jpg" className="rounded shadow" />
-            <img src="/leaf2.jpg" className="rounded shadow" />
-            <img src="/leaf3.jpg" className="rounded shadow" />
+            <img src= { leaf1 } className="rounded shadow" />
+            <img src= { leaf2 } className="rounded shadow" />
+            <img src= { leaf3 } className="rounded shadow" />
           </div>
         </div>
       </div>
