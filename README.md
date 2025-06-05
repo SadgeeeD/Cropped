@@ -1,76 +1,70 @@
-# Getting Started with Create React App
+# Rooftop Garden Monitoring System 🌿
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📚 Final Year Project — Temasek Polytechnic, School of Engineering
 
-## Available Scripts
+This project is a smart monitoring system for rooftop gardens, combining real-time data visualization, manual data entry, and machine learning-based image classification to assist in sustainable urban agriculture.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📌 Project Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The goal of this project is to build an interactive web application that:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Displays real-time sensor data (temperature, humidity, soil moisture, etc.) from rooftop garden installations.
+- Allows users to **manually log additional parameters** such as nitrate/nitrite levels that current sensors cannot detect.
+- Integrates a machine learning model to detect **plant health conditions** through image uploads.
+- Provides intuitive UI/UX for urban farmers or gardening enthusiasts to monitor, manage, and respond to plant health issues.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠 Tech Stack
 
-### `npm run build`
+| Layer        | Technology Used                     |
+|--------------|-------------------------------------|
+| Frontend     | React.js, Tailwind CSS              |
+| Backend/API  | Node.js + Express                   |
+| Database     | Microsoft SQL Server                |
+| ML Model     | CNN (Convolutional Neural Network) trained with custom dataset |
+| Tools        | Visual Studio Code, Git, Postman    |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ✅ Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🌡️ Sensor Dashboard
+- Displays real-time sensor values via charts and tables.
+- Clean, mobile-responsive design for accessible monitoring.
 
-### `npm run eject`
+### 📝 Manual Data Entry
+- Users can input additional garden metrics (e.g., nitrate levels).
+- Data is validated and sent to the SQL database via Express API.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 🌱 Image Classification
+- Upload plant leaf images for health classification (healthy vs diseased).
+- Uses CNN model trained on 11,000+ labeled images.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🔒 Authentication *(Optional if implemented)*
+- Secure login for different user roles (admin, guest).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
+- Node.js v18+
+- Microsoft SQL Server
+- Visual Studio Code
+- Git
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 👥 Team Members
+|Name     |	Role                              |
+|---------|-----------------------------------|
+| Darren  |Web Developer & ML Engineer        |
+| Ethan   |App Developer & Database Dev       |
+| Damien  |	Hardware Engineer                 |
 
 
+### 📄 License
+This project is for academic use only as part of the Final Year Project module at Temasek Polytechnic.
 
 
-
-T
