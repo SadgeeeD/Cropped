@@ -14,6 +14,7 @@ export const ContextProvider = ({ children }) => {
   // const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
 
 // const setMode = (e) => {
 //     setCurrentMode(e.target.value);
@@ -27,10 +28,16 @@ export const ContextProvider = ({ children }) => {
 
   const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
 
+  const closeAll = () => setIsClicked({ ...initialState });
+
+  const toggleUserProfile = () => {
+    setIsUserProfileOpen(prev => !prev);
+  }
+
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <StateContext.Provider 
-      value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, screenSize, setScreenSize 
+      value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, closeAll, screenSize, setScreenSize, isUserProfileOpen, setIsUserProfileOpen
 
       }}>
       {children}

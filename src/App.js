@@ -5,7 +5,7 @@ import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 import { Navbar , Footer, Sidebar, ThemeSettings } from './components';
-import { Home, Dashboard, Identifier, ManualEntry, History } from './pages';
+import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register } from './pages';
 
 import {useStateContext} from './contexts/ContextProvider';
 
@@ -61,6 +61,8 @@ const App = () => {
               <Route path="/ManualEntry" element = {<ManualEntry /> } />
               <Route path="/History" element = {<History /> } />
               <Route path="/Identifier" element = {<Identifier /> } />
+              <Route path="/Login" element = {<Login /> } />
+              <Route path="/Register" element = {<Register /> } />
             </Routes>
           </div>
           </div>
