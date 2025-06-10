@@ -30,7 +30,7 @@ const normalLink =
       {activeMenu && (
         <>
           <div className="flex justify-between items-center">
-            <Link to="/" onClick={() => setActiveMenu(false)} className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-black text-slate-900">
+            <Link to="/Home" onClick={() => setActiveMenu(false)} className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-black text-slate-900">
               <SiShopware /> <span>Cropped</span>
             </Link>
             <button
