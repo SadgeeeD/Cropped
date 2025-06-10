@@ -1,0 +1,85 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh; /* Occupy most of the viewport height */
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.home-title {
+  font-size: 3.5em; /* Larger, more impactful title */
+  color: #2c3e50; /* Darker blue for headings */
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.home-actions {
+  display: flex;
+  gap: 20px; /* Space between buttons */
+  margin-bottom: 40px;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  justify-content: center;
+}
+
+.home-button {
+  display: inline-block;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none; /* Remove underline from links */
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+}
+
+.home-button.primary {
+  background-color: #007bff; /* Primary action button color */
+  color: white;
+  border: 2px solid #007bff;
+}
+
+.home-button.primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.home-button.secondary {
+  background-color: #6c757d; /* Secondary action button color */
+  color: white;
+  border: 2px solid #6c757d;
+}
+
+.home-button.secondary:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: if you add a tertiary button */
+.home-button.tertiary {
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.home-button.tertiary:hover {
+  background-color: #e7f3ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.home-tagline {
+  font-size: 1.2em;
+  color: #777;
+  font-style: italic;
+  margin-top: 20px;
+}
