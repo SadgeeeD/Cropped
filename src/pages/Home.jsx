@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 import '../css/Home.css'; 
 
+import FarmList from '../components/FarmList';
+
 const Home = () => {
   // You might want to add some logic here to check if a user is logged in
   // For demonstration, we'll assume the dashboard/manual-entry links are always visible,

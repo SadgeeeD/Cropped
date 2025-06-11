@@ -8,6 +8,10 @@ import leaf1 from "../data/leaf1.jpg";
 import leaf2 from "../data/leaf2.jpg";
 import leaf3 from "../data/leaf3.jpg";
 
+
+import { DataListProvider } from '../contexts/DataProvider';
+import { useData } from '../contexts/DataProvider';
+
 // #region Skeleton Loading
 const SkeletonCard = () => (
     <div className="bg-white p-4 rounded shadow flex items-center gap-4 animate-pulse">
@@ -58,7 +62,7 @@ function RotatableSummaryCard({ label, icon, weatherData, sensorData, isLoading 
     useEffect(() => {
         const interval = setInterval(() => {
             setDisplayMode(prevMode => (prevMode === 'weather' ? 'sensor' : 'weather'));
-        }, 30000); // Rotate every 30 seconds
+        }, 6000); // Rotate every min
 
         return () => clearInterval(interval); // Clear interval on unmount
     }, []);
@@ -88,20 +92,38 @@ function RotatableSummaryCard({ label, icon, weatherData, sensorData, isLoading 
         source = "Sensor Data";
         switch (label) {
             case "Temperature (Air)":
-                value = sensorData?.airTemperature !== undefined ? `${sensorData.airTemperature}°C` : "N/A";
+                value = sensorData?.airTemperature !== undefined
+                    ? `${parseFloat(sensorData.airTemperature).toFixed(2)}°C`
+                    : "N/A";
                 break;
+
             case "Temperature (Water)":
-                value = sensorData?.waterTemperature !== undefined ? `${sensorData.waterTemperature}°C` : "N/A";
+                value = sensorData?.waterTemperature !== undefined
+                    ? `${parseFloat(sensorData.waterTemperature).toFixed(2)}°C`
+                    : "N/A";
                 break;
+
             case "Humidity":
-                value = sensorData?.humidity !== undefined ? `${sensorData.humidity}%` : "N/A";
+                value = sensorData?.humidity !== undefined
+                    ? `${parseFloat(sensorData.humidity).toFixed(2)}%`
+                    : "N/A";
                 break;
+
             case "Light":
-                value = sensorData?.light !== undefined ? `${sensorData.light} µmol/m²` : "N/A";
+                value = sensorData?.light !== undefined
+                    ? `${parseFloat(sensorData.light).toFixed(2)} µmol/m²`
+                    : "N/A";
                 break;
+
             case "Wind / Pressure":
-                value = sensorData?.pressure !== undefined ? `${sensorData.pressure} hPa` : "N/A";
+                value = sensorData?.pressure !== undefined
+                    ? `${parseFloat(sensorData.pressure).toFixed(2)} hPa`
+                    : "N/A";
                 break;
+            case "Farm Location":
+                value = sensorData?.farmLocation || "N/A";
+                break;
+
             default: value = "N/A";
         }
     }
@@ -116,23 +138,24 @@ function RotatableSummaryCard({ label, icon, weatherData, sensorData, isLoading 
             </div>
         </div>
     );
+
+    
 }
 
 // #endregion
 
 function Dashboard() {
-    const [farms, setFarms] = useState([]);
+    
     const [weather, setWeather] = useState(null);
-    const [sensorReadings, setSensorReadings] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+   const { farms, sensorReadings, loading } = useData();
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch Farms
-                const fetchedFarms = await api.getAllFarms();
-                setFarms(fetchedFarms);
+                
 
                 // Fetch Weather (e.g., for Singapore coordinates)
                 const fetchedWeather = await api.getWeatherData(1.3521, 103.8198);
@@ -140,14 +163,11 @@ function Dashboard() {
 
                 // Fetch all Sensor Readings from your external API via dataService
                 const fetchedReadings = await api.getSensorReadings();
-                setSensorReadings(fetchedReadings);
 
             } catch (err) {
                 setError(err.message);
                 console.error("Failed to fetch data:", err);
-            } finally {
-                setLoading(false);
-            }
+            } 
         };
 
         fetchData();
@@ -223,19 +243,20 @@ function Dashboard() {
             );
         }
 
-        if (error) {
-            return (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-                    <strong className="font-bold">Data Error!</strong>
-                    <span className="block sm:inline"> {error}</span>
-                    <p className="mt-2 text-sm">Attempting to display static layout with default values.</p>
-                </div>
-            );
-        }
+        // if (error) {
+        //     return (
+        //         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+        //             <strong className="font-bold">Data Error!</strong>
+        //             <span className="block sm:inline"> {error}</span>
+        //             <p className="mt-2 text-sm">Attempting to display static layout with default values.</p>
+        //         </div>
+        //     );
+        // }
 
         // Render actual data when successfully loaded and no error
         return (
-            <>
+            
+            <DataListProvider>
                 <div className="grid grid-cols-4 gap-4 mb-6">
                     <RotatableSummaryCard
                         label="Temperature (Air)" // Changed label
@@ -244,6 +265,7 @@ function Dashboard() {
                         sensorData={latestSensorData}
                         isLoading={loading}
                     />
+                   
                      <RotatableSummaryCard
                         label="Temperature (Water)" // New card for water temperature
                         icon="🌊" // Water icon
@@ -272,7 +294,20 @@ function Dashboard() {
                         sensorData={latestSensorData}
                         isLoading={loading}
                     />
+                    <RotatableSummaryCard
+                        label="Farm Location"
+                        icon="🏡"
+                        weatherData={{}} // not needed
+                        sensorData={{ farmLocation: farms[0]?.Location }} // ✅ using global context data
+                        isLoading={loading}
+
+                    />
+
+                   
                 </div>
+
+                
+     
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-white p-4 rounded shadow">
@@ -326,7 +361,7 @@ function Dashboard() {
                         </tbody>
                     </table>
                 </div>
-            </>
+            </DataListProvider>
         );
     };
 
@@ -334,6 +369,11 @@ function Dashboard() {
         <div className="p-6 bg-gray-50 min-h-screen">
             {renderDashboardContent()}
         </div>
+
+        
+            
+        
+     
     );
 }
 

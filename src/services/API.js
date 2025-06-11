@@ -55,7 +55,7 @@ const login = async (username, password) => {
 
     // --- Data related endpoints (mapping to your dataController) ---
     const getAllFarms = async () => {
-        const response = await api.get('/Farms/GetAllFarms');
+        const response = await api.get('/data/farms');
         return response.data;
     };
 

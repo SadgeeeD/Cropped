@@ -5,10 +5,14 @@ import './index.css';
 import App from './App';
 import { ContextProvider } from './contexts/ContextProvider';
 
+import { DataListProvider } from './contexts/DataProvider';
+
 //Hooking React App to Root
 ReactDOM.render(
   <ContextProvider>
-    <App />
+    <DataListProvider>
+      <App />
+    </DataListProvider>
   </ContextProvider>,
   document.getElementById('root')
 );
