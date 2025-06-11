@@ -75,7 +75,10 @@ function RotatableSummaryCard({ label, icon, weatherData, sensorData, isLoading 
     if (displayMode === 'weather') {
         source = "Weather Forecast";
         switch (label) {
-            case "Temperature": value = weatherData?.temperature !== undefined ? `${weatherData.temperature}°C` : "N/A"; break;
+            case "Temperature (Air)":
+            case "Temperature (Water)": // Weather forecast usually doesn't distinguish, so treat as general
+                value = weatherData?.temperature !== undefined ? `${weatherData.temperature}°C` : "N/A";
+                break;
             case "Humidity": value = weatherData?.humidity !== undefined ? `${weatherData.humidity}%` : "N/A"; break;
             case "Light": value = weatherData?.light !== undefined ? `${weatherData.light} lx` : "N/A"; break;
             case "Wind Speed": value = weatherData?.windSpeed !== undefined ? `${weatherData.windSpeed} km/h` : "N/A"; break;
@@ -84,10 +87,21 @@ function RotatableSummaryCard({ label, icon, weatherData, sensorData, isLoading 
     } else if (displayMode === 'sensor') {
         source = "Sensor Data";
         switch (label) {
-            case "Temperature": value = sensorData?.temperature !== undefined ? `${sensorData.temperature}°C` : "N/A"; break;
-            case "Humidity": value = sensorData?.humidity !== undefined ? `${sensorData.humidity}%` : "N/A"; break;
-            case "Light": value = sensorData?.light !== undefined ? `${sensorData.light} µmol/m²` : "N/A"; break; // Using µmol/m² based on your PDF
-            case "Wind / Pressure": value = sensorData?.pressure !== undefined ? `${sensorData.pressure} hPa` : "N/A"; break; // For pressure
+            case "Temperature (Air)":
+                value = sensorData?.airTemperature !== undefined ? `${sensorData.airTemperature}°C` : "N/A";
+                break;
+            case "Temperature (Water)":
+                value = sensorData?.waterTemperature !== undefined ? `${sensorData.waterTemperature}°C` : "N/A";
+                break;
+            case "Humidity":
+                value = sensorData?.humidity !== undefined ? `${sensorData.humidity}%` : "N/A";
+                break;
+            case "Light":
+                value = sensorData?.light !== undefined ? `${sensorData.light} µmol/m²` : "N/A";
+                break;
+            case "Wind / Pressure":
+                value = sensorData?.pressure !== undefined ? `${sensorData.pressure} hPa` : "N/A";
+                break;
             default: value = "N/A";
         }
     }
@@ -121,7 +135,6 @@ function Dashboard() {
                 setFarms(fetchedFarms);
 
                 // Fetch Weather (e.g., for Singapore coordinates)
-                // You'll need to implement getWeatherData in your API.js to call a weather API (e.g., OpenWeatherMap)
                 const fetchedWeather = await api.getWeatherData(1.3521, 103.8198);
                 setWeather(fetchedWeather);
 
@@ -145,37 +158,55 @@ function Dashboard() {
 
     const latestSensorData = {};
     if (sensorReadings && sensorReadings.length > 0) {
-        // Find the latest reading for each unit type based on Timestamp
-        const latestReadingsByUnit = {};
+        // Find the latest reading for each sensor type (identified by SensorId)
+        const latestReadingsBySensorId = {};
         sensorReadings.forEach(reading => {
-            if (!latestReadingsByUnit[reading.Unit] || new Date(reading.Timestamp) > new Date(latestReadingsByUnit[reading.Unit].Timestamp)) {
-                latestReadingsByUnit[reading.Unit] = reading;
+            if (!latestReadingsBySensorId[reading.SensorId] || new Date(reading.Timestamp) > new Date(latestReadingsBySensorId[reading.SensorId].Timestamp)) {
+                latestReadingsBySensorId[reading.SensorId] = reading;
             }
         });
 
-        // Map units to the expected sensorData properties for the cards
-        if (latestReadingsByUnit['µmol/m²']) { // Light sensor
-            latestSensorData.light = latestReadingsByUnit['µmol/m²'].Value;
+        // Map specific SensorIds to the expected sensorData properties for the cards
+        // IMPORTANT: You'll need to know the SensorId values for your air and water temperature sensors.
+        // For example, let's assume 'temp_air_001' is for air temperature and 'temp_water_001' for water temperature.
+        // You would replace these placeholder IDs with your actual SensorIds.
+
+        // Example SensorId mappings (YOU MUST REPLACE THESE WITH YOUR ACTUAL SENSOR IDs)
+        if (latestReadingsBySensorId['air_temp_sensor_id_placeholder']) {
+            latestSensorData.airTemperature = latestReadingsBySensorId['air_temp_sensor_id_placeholder'].Value;
         }
-        // Add more mappings here if your external API provides other sensor types with distinct units:
-        // if (latestReadingsByUnit['°C']) { latestSensorData.temperature = latestReadingsByUnit['°C'].Value; }
-        // if (latestReadingsByUnit['%']) { latestSensorData.humidity = latestReadingsByUnit['%'].Value; }
-        // if (latestReadingsByUnit['hPa']) { latestSensorData.pressure = latestReadingsByUnit['hPa'].Value; }
-        // Note: 'ppm' units (from your PDF) are not directly mapped to Temperature/Humidity/Pressure
-        // unless you have a specific rule or SensorId mapping for them.
+        if (latestReadingsBySensorId['water_temp_sensor_id_placeholder']) {
+            latestSensorData.waterTemperature = latestReadingsBySensorId['water_temp_sensor_id_placeholder'].Value;
+        }
+        if (latestReadingsBySensorId['light_sensor_id_placeholder']) { // Light sensor (using its SensorId)
+            latestSensorData.light = latestReadingsBySensorId['light_sensor_id_placeholder'].Value;
+        }
+        if (latestReadingsBySensorId['humidity_sensor_id_placeholder']) { // Humidity sensor
+            latestSensorData.humidity = latestReadingsBySensorId['humidity_sensor_id_placeholder'].Value;
+        }
+        if (latestReadingsBySensorId['pressure_sensor_id_placeholder']) { // Pressure sensor
+             latestSensorData.pressure = latestReadingsBySensorId['pressure_sensor_id_placeholder'].Value;
+        }
+        // Add more mappings for other sensor types (e.g., pH, dissolved oxygen, etc.) if needed
     }
 
+
     // Prepare chart data only if readings are available
-    // Using sensorReadings state directly
+    // For simplicity, let's assume the chart will display data from one of the temperature sensors,
+    // for instance, the air temperature sensor. You might need to make this configurable
+    // or display multiple lines for different sensors.
     const chartData = sensorReadings.length > 0
-        ? sensorReadings.slice(0, 20).map(reading => ({
-            time: new Date(reading.Timestamp).toLocaleTimeString(),
-            value: reading.Value,
-        }))
+        ? sensorReadings
+            .filter(reading => reading.SensorId === 'air_temp_sensor_id_placeholder') // Filter for a specific sensor for the chart
+            .slice(0, 20) // Take the latest 20 readings for the chart
+            .map(reading => ({
+                time: new Date(reading.Timestamp).toLocaleTimeString(),
+                value: reading.Value,
+            }))
         : [];
 
     const renderDashboardContent = () => {
-        if (loading) { // Use 'loading' state directly
+        if (loading) {
             return (
                 <>
                     <div className="grid grid-cols-4 gap-4 mb-6">
@@ -192,55 +223,62 @@ function Dashboard() {
             );
         }
 
-        if (error) { // Use 'error' state directly
+        if (error) {
             return (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
                     <strong className="font-bold">Data Error!</strong>
-                    <span className="block sm:inline"> {error}</span> {/* Use 'error' state directly */}
+                    <span className="block sm:inline"> {error}</span>
                     <p className="mt-2 text-sm">Attempting to display static layout with default values.</p>
                 </div>
             );
         }
 
-       // Render actual data when successfully loaded and no error
+        // Render actual data when successfully loaded and no error
         return (
             <>
                 <div className="grid grid-cols-4 gap-4 mb-6">
                     <RotatableSummaryCard
-                        label="Temperature"
+                        label="Temperature (Air)" // Changed label
                         icon="🌡️"
-                        weatherData={weatherDataForCard} // Pass derived data
-                        sensorData={latestSensorData} // Pass derived data
+                        weatherData={weatherDataForCard}
+                        sensorData={latestSensorData}
+                        isLoading={loading}
+                    />
+                     <RotatableSummaryCard
+                        label="Temperature (Water)" // New card for water temperature
+                        icon="🌊" // Water icon
+                        weatherData={weatherDataForCard} // Weather API likely gives general temperature
+                        sensorData={latestSensorData}
                         isLoading={loading}
                     />
                     <RotatableSummaryCard
                         label="Humidity"
                         icon="💧"
-                        weatherData={weatherDataForCard} // Pass derived data
-                        sensorData={latestSensorData} // Pass derived data
+                        weatherData={weatherDataForCard}
+                        sensorData={latestSensorData}
                         isLoading={loading}
                     />
                     <RotatableSummaryCard
                         label="Light"
                         icon="☀️"
-                        weatherData={weatherDataForCard} // Pass derived data
-                        sensorData={latestSensorData} // Pass derived data
+                        weatherData={weatherDataForCard}
+                        sensorData={latestSensorData}
                         isLoading={loading}
                     />
                     <RotatableSummaryCard
                         label="Wind / Pressure"
                         icon="💨"
-                        weatherData={weatherDataForCard} // Pass derived data
-                        sensorData={latestSensorData} // Pass derived data
+                        weatherData={weatherDataForCard}
+                        sensorData={latestSensorData}
                         isLoading={loading}
                     />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-white p-4 rounded shadow">
-                        <h2 className="text-lg font-semibold mb-2">Sensor Data</h2>
+                        <h2 className="text-lg font-semibold mb-2">Sensor Data (Air Temperature)</h2> {/* Updated title */}
                         <ResponsiveContainer width="100%" height={200}>
-                            <LineChart data={chartData}> {/* Use chartData */}
+                            <LineChart data={chartData}>
                                 <CartesianGrid stroke="#eee" />
                                 <XAxis dataKey="time" />
                                 <YAxis />

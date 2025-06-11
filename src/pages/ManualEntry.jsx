@@ -38,7 +38,7 @@ const ManualEntry = () => {
   };
 
   return (
-    <div className="manual-entry-container">
+    <div className="manual-entry-container bg-gray-800 text-white pt-0 mt-0">
       <h2>Manual Data Entry</h2>
       <form onSubmit={handleSubmit} className="manual-entry-form">
         <div className="form-group">
