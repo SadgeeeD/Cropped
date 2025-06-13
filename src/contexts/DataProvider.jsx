@@ -32,7 +32,7 @@ export const DataListProvider = ({ children }) => {
         const latestWeather = {
           temperature: rawWeather?.hourly?.temperature_2m?.[index],
           humidity: rawWeather?.hourly?.relative_humidity_2m?.[index],
-          light: rawWeather?.hourly?.uv_index?.[index], // assuming UV is light proxy
+          uvIndex: rawWeather?.hourly?.uv_index?.[index], // assuming UV is light proxy
           windSpeed: rawWeather?.hourly?.wind_speed_10m?.[index],
         };
 

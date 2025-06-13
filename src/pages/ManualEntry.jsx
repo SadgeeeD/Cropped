@@ -49,7 +49,7 @@ const ManualEntry = () => {
             id="nitrate"
             value={formData.nitrate}
             onChange={handleChange}
-            placeholder="e.g., 5.2"
+            placeholder="e.g. 5.2"
             required
             step="0.01" // Allows decimal inputs
           />
@@ -63,7 +63,7 @@ const ManualEntry = () => {
             id="nitrite"
             value={formData.nitrite}
             onChange={handleChange}
-            placeholder="e.g., 0.1"
+            placeholder="e.g. 0.1"
             required
             step="0.01"
           />
@@ -77,7 +77,7 @@ const ManualEntry = () => {
             id="ammonia"
             value={formData.ammonia}
             onChange={handleChange}
-            placeholder="e.g., 0.05"
+            placeholder="e.g. 0.05"
             required
             step="0.01"
           />
@@ -91,7 +91,7 @@ const ManualEntry = () => {
             id="dissolvedoxygen"
             value={formData.dissolvedoxygen}
             onChange={handleChange}
-            placeholder="e.g., 7.8"
+            placeholder="e.g. 7.8"
             required
             step="0.1"
           />
@@ -105,7 +105,7 @@ const ManualEntry = () => {
             id="chlorophyll"
             value={formData.chlorophyll}
             onChange={handleChange}
-            placeholder="e.g., 15.3"
+            placeholder="e.g. 15.3"
             required
             step="0.1"
           />

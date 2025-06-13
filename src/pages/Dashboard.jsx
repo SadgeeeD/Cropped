@@ -98,6 +98,7 @@
     }
     // #endregion
 
+    // #region Graphs and Sensors
     function groupReadingsBySensor(sensorReadings, sensors) {
     const grouped = {};
 
@@ -138,7 +139,7 @@
     'light_level': 'lx',
     // Add others as needed
     };
-
+// #endregion
 
     function Dashboard() {
     const { weather, sensorReadings, farms, loading , sensors } = useData();
@@ -147,6 +148,7 @@
     const [activeSensorIndex, setActiveSensorIndex] = useState(0);
     const [manualMode, setManualMode] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
+    const [monthlyOnly, setMonthlyOnly] = useState(true);   
 
     //Rotate Graphs Every 30 seconds and 3 mins for manual selection
     useEffect(() => {
@@ -187,6 +189,22 @@
         const activeSensorId = sensorKeys[activeSensorIndex];
         const activeSensorData = groupedBySensor[activeSensorId];
 
+        if (!activeSensorData) {
+            return (
+                <div className="text-red-500 font-semibold">
+                API is unavailable as of now.
+                </div>
+            );
+        }
+
+        //Displaying data based on this month
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const filteredReadings = monthlyOnly
+        ? activeSensorData.readings.filter((r) => new Date(r.Timestamp) >= startOfMonth)
+        : activeSensorData.readings;
+
+
         const handleManualSelect = (e) => {
         clearTimeout(timeoutId);
         setManualMode(true);
@@ -204,7 +222,7 @@
             <div className="grid grid-cols-4 gap-4 mb-6">
             <RotatableSummaryCard label="Temperature (Air)" icon="🌡️" weatherData={weather} isLoading={loading} />
             <RotatableSummaryCard label="Humidity" icon="💧" weatherData={weather} isLoading={loading} />
-            <RotatableSummaryCard label="Light" icon="☀️" weatherData={weather} isLoading={loading} />
+            <RotatableSummaryCard label="UV Index" icon="☀️" weatherData={weather} isLoading={loading} />
             <RotatableSummaryCard label="Wind Speed" icon="💨" weatherData={weather} isLoading={loading} />
             </div>
 
@@ -226,6 +244,18 @@
                 </select>
             </div>
 
+            <div className="flex items-center gap-2 mb-2">
+                <label className="font-medium">Show:</label>
+                <select
+                    value={monthlyOnly ? "month" : "all"}
+                    onChange={(e) => setMonthlyOnly(e.target.value === "month")}
+                    className="border px-2 py-1 rounded"
+                >
+                    <option value="month">This Month Only</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+
             {activeSensorData && (
                 <div key={activeSensorId} className="bg-white p-4 rounded shadow mb-6">
                     <h2 className="text-lg font-semibold mb-2">
@@ -233,7 +263,7 @@
                     </h2>
                     <ResponsiveContainer width="100%" height={200}>
                     <LineChart
-                        data={activeSensorData.readings.map((r) => ({
+                        data={filteredReadings.map((r) => ({
                         time: new Date(r.Timestamp).toLocaleString([], {
                             day: '2-digit',
                             month: '2-digit',
@@ -279,9 +309,9 @@
                 </thead>
                 <tbody>
                     {[
-                    { name: 'Plante', health: 'Healthy', stage: 'Seedling' },
-                    { name: 'Bee 3', health: 'Healthy', stage: 'Vegetative' },
-                    { name: 'Vegetiaile', health: 'Healthy', stage: 'Seedling' }
+                    { name: 'Peppermint', health: 'Healthy', stage: 'Seedling' },
+                    { name: 'Bok Choy', health: 'Healthy', stage: 'Vegetative' },
+                    { name: 'Nai Bai', health: 'Healthy', stage: 'Seedling' }
                     ].map((plant, index) => (
                     <tr key={index} className="border-b">
                         <td className="p-2">{plant.name}</td>
