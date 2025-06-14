@@ -261,7 +261,7 @@
                     <h2 className="text-lg font-semibold mb-2">
                     {activeSensorData.sensor.Name} – {SENSOR_UNITS[activeSensorData.sensor.Type] || activeSensorData.sensor.Type}
                     </h2>
-                    <ResponsiveContainer width="100%" height={200}>
+                    <ResponsiveContainer width="100%" height={200} debounce={200}>
                     <LineChart
                         data={filteredReadings.map((r) => ({
                         time: new Date(r.Timestamp).toLocaleString([], {

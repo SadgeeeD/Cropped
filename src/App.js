@@ -1,5 +1,5 @@
 import React , { useEffect } from 'react';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
@@ -58,6 +58,7 @@ const App = () => {
 
           <div>
             <Routes>
+              <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/Home" element = {<Home /> } />
               <Route path="/Dashboard" element = {<Dashboard /> } />
               <Route path="/ManualEntry" element = {<ManualEntry /> } />
