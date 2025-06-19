@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
+
 const DataContext = createContext();
 
 export const DataListProvider = ({ children }) => {
@@ -10,11 +11,24 @@ export const DataListProvider = ({ children }) => {
   const [sensors, setSensors] = useState([]);
   const [weather, setWeather] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+
+  const THRESHOLDS = {
+  'pH': { min: 6.5, max: 7.5 },
+  'EC/TDS': { min: 500, max: 2000 }, // µS/cm
+  'water_temperature': { min: 20, max: 28 },
+  'dissolved_oxygen': { min: 5, max: 8 },
+  'chlorophyll': { min: 35, max: 50 }, // SPAD
+  'ammonia': { min: 0, max: 0.5 },
+  'nitrite': { min: 0, max: 0.5 },
+  'nitrate': { min: 40, max: 100 },
+};
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // #region Weather API
         const [farmsResponse, sensorsResponse, sensorReadingsResponse] = await Promise.all([
           axios.get('http://localhost:5000/api/getFarms'),
           axios.get('http://localhost:5000/api/getSensors'),
@@ -37,6 +51,44 @@ export const DataListProvider = ({ children }) => {
         };
 
         setWeather(latestWeather);
+        // #endregion
+
+        // #region Notifications
+        const generateNotifications = (readings, sensors) => {
+        const alerts = [];
+
+        for (const reading of readings) {
+          const sensor = sensors.find(s => s.SensorId === reading.SensorId);
+          if (!sensor) continue;
+
+          const type = sensor.Type;
+          const thresholds = THRESHOLDS[type];
+
+          if (thresholds) {
+            if (reading.Value < thresholds.min) {
+              alerts.push({
+                sensorName: sensor.Name,
+                message: `${type} too low: ${reading.Value}`,
+                severity: 'low',
+                timestamp: reading.Timestamp,
+              });
+            } else if (reading.Value > thresholds.max) {
+              alerts.push({
+                sensorName: sensor.Name,
+                message: `${type} too high: ${reading.Value}`,
+                severity: 'high',
+                timestamp: reading.Timestamp,
+              });
+            }
+          }
+        }
+
+        return alerts;
+      };
+
+      const alerts = generateNotifications(sensorReadingsResponse.data, sensorsResponse.data);
+      setNotifications(alerts);
+      // #endregion
 
       } catch (err) {
         console.error("Failed to fetch data:", err);
@@ -49,7 +101,7 @@ export const DataListProvider = ({ children }) => {
   }, []);
 
   return (
-    <DataContext.Provider value={{farms, sensorReadings, loading , weather, sensors}}>
+    <DataContext.Provider value={{farms, sensorReadings, loading , weather, sensors, notifications}}>
       {children}
     </DataContext.Provider>
   );

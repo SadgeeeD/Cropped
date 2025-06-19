@@ -7,6 +7,7 @@ import { Tooltip } from 'react-tooltip'; // Assuming you have react-tooltip inst
 import { useRef } from 'react'; // ADD THIS LINE
 import debounce from 'lodash.debounce'; // ADD THIS LINE
 
+
 import avatar from "../data/avatar.jpg";
 import { Notification, UserProfile } from '.'; // Assuming these are components you want to render
 import { useStateContext } from '../contexts/ContextProvider';
@@ -18,7 +19,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       type="button"
       onClick={customFunc}
       style={{ color }}
-      className="relative text-2xl rounded-full p-3 hover:bg-light-gray bg-white"
+      className="relative text-2xl rounded-full p-3 hover:bg-light-gray bg-white dark:bg-[#121212] text-black dark:text-white"
       data-tooltip-id="my-tooltip" // Assign a common ID for all tooltips
       data-tooltip-content={title} // Use data-tooltip-content for the title
     >
@@ -77,7 +78,8 @@ const Navbar = () => {
 
 
   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative bg-white">
+    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative bg-white 
+    dark:bg-[#121212] text-gray-800 dark:text-gray-100">
       <NavButton
         title="Menu"
         customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}

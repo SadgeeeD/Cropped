@@ -5,7 +5,7 @@ import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 import { Navbar , Footer, Sidebar, ThemeSettings } from './components';
-import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register } from './pages';
+import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register, ProfilePage} from './pages';
 
 import {useStateContext} from './contexts/ContextProvider';
 
@@ -13,7 +13,21 @@ import {useStateContext} from './contexts/ContextProvider';
 import './App.css'
 
 const App = () => {
-  const { activeMenu } = useStateContext();
+  const { activeMenu, currentMode, setCurrentMode } = useStateContext();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (currentMode === 'system') {
+        const newMode = mediaQuery.matches ? 'dark' : 'light';
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(newMode);
+      }
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [currentMode]);
+
 
   return (
     <div>
@@ -66,6 +80,7 @@ const App = () => {
               <Route path="/Identifier" element = {<Identifier /> } />
               <Route path="/Login" element = {<Login /> } />
               <Route path="/Register" element = {<Register /> } />
+              <Route path="/Profile" element={<ProfilePage />} />
             </Routes>
           </div>
           </div>

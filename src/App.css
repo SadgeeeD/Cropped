@@ -28,7 +28,7 @@
   background-color: transparent;
 }
 
-/*Dashboard*/ 
+/* #region Dashboard*/ 
 .dashboard {
   padding: 20px;
   max-width: 1200px;
@@ -84,6 +84,39 @@ th, td {
   color: #d32f2f;
 }
 
+/* #endregion */
+
+/* #region Dark Mode */
+:root {
+  --home-bg: #f8f9fa;
+  --home-text: #333;
+  --home-heading: #2c3e50;
+  --home-tagline: #777;
+
+  --btn-primary: #007bff;
+  --btn-primary-hover: #0056b3;
+
+  --btn-secondary: #6c757d;
+  --btn-secondary-hover: #5a6268;
+
+  --btn-tertiary-hover: #e7f3ff;
+}
+
+.dark {
+  --home-bg: #121212;
+  --home-text: #e0e0e0;
+  --home-heading: #ffffff;
+  --home-tagline: #aaa;
+
+  --btn-primary: #2196f3;
+  --btn-primary-hover: #1e88e5;
+
+  --btn-secondary: #495057;
+  --btn-secondary-hover: #343a40;
+
+  --btn-tertiary-hover: #1e1e1e;
+}
+/* #endregion */
 
 /* color-picker style  */
 

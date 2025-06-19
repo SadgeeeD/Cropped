@@ -11,7 +11,7 @@ const Home = () => {
   const isLoggedIn = false; // Replace with actual authentication check
 
   return (
-    <div className="home-container">
+    <div className="home-container ">
       <h1 className="home-title">Welcome to Cropped!</h1>
 
       <div className="home-actions">

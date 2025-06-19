@@ -1,47 +1,83 @@
-import React, { createContext, useContext, useState } from 'react';
+// src/contexts/ContextProvider.jsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const StateContext = createContext();
 
-const initialState = {
-    userProfile: false,
-    notification: false
-}
+const getInitialMode = () => {
+  return localStorage.getItem('themeMode') || 'system';
+};
+
+const getEffectiveTheme = (mode) => {
+  if (mode === 'system') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return mode;
+};
 
 export const ContextProvider = ({ children }) => {
-  const [screenSize, setScreenSize] = useState(undefined);
-  //const [currentColor, setCurrentColor] = useState('#03C9D7');
-  // const [currentMode, setCurrentMode] = useState('Light');
-  // const [themeSettings, setThemeSettings] = useState(false);
+  const [currentColor, setCurrentColor] = useState('#03C9D7');
+  const [currentMode, setCurrentMode] = useState(getInitialMode());
   const [activeMenu, setActiveMenu] = useState(true);
-  const [isClicked, setIsClicked] = useState(initialState);
-  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
-  const [alerts, setAlerts] = useState([]);
-  const [hasNewAlert, setHasNewAlert] = useState([]);
+  const [isClicked, setIsClicked] = useState({
+    chat: false,
+    cart: false,
+    userProfile: false,
+    notification: false,
+  });
+  const [screenSize, setScreenSize] = useState(undefined);
 
-// const setMode = (e) => {
-//     setCurrentMode(e.target.value);
-//     localStorage.setItem('themeMode', e.target.value);
-//   };
+  const handleClick = (clicked) => {
+    setIsClicked({ ...isClicked, [clicked]: true });
+  };
 
-//   const setColor = (color) => {
-//     setCurrentColor(color);
-//     localStorage.setItem('colorMode', color);
-//   };
+  const closeAll = () => {
+    setIsClicked({
+      chat: false,
+      cart: false,
+      userProfile: false,
+      notification: false,
+    });
+  };
 
-  const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
+  // Apply theme to <html>
+  useEffect(() => {
+    const modeToApply = getEffectiveTheme(currentMode);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(modeToApply);
+  }, [currentMode]);
 
-  const closeAll = () => setIsClicked({ ...initialState });
+  // Listen to system preference changes (only if using 'system')
+  useEffect(() => {
+    if (currentMode !== 'system') return;
 
-  const toggleUserProfile = () => {
-    setIsUserProfileOpen(prev => !prev);
-  }
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemChange = () => {
+      const newTheme = mediaQuery.matches ? 'dark' : 'light';
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(newTheme);
+    };
+
+    mediaQuery.addEventListener('change', handleSystemChange);
+    return () => mediaQuery.removeEventListener('change', handleSystemChange);
+  }, [currentMode]);
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider 
-      value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, closeAll, screenSize, setScreenSize, isUserProfileOpen, setIsUserProfileOpen, hasNewAlert, setHasNewAlert
-
-      }}>
+    <StateContext.Provider
+      value={{
+        currentColor,
+        currentMode,
+        setCurrentColor,
+        setCurrentMode,
+        activeMenu,
+        setActiveMenu,
+        isClicked,
+        setIsClicked,
+        handleClick,
+        closeAll,
+        screenSize,
+        setScreenSize,
+      }}
+    >
       {children}
     </StateContext.Provider>
   );

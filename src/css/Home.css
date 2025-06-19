@@ -3,17 +3,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh; /* Occupy most of the viewport height */
+  min-height: 80vh;
   text-align: center;
   padding: 20px;
-  background-color: #f8f9fa; /* Light background */
+  background-color: var(--home-bg);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  color: var(--home-text);
 }
 
 .home-title {
-  font-size: 3.5em; /* Larger, more impactful title */
-  color: #2c3e50; /* Darker blue for headings */
+  font-size: 3.5em;
+  color: var(--home-heading);
   margin-bottom: 20px;
   font-weight: 700;
   line-height: 1.2;
@@ -21,9 +21,9 @@
 
 .home-actions {
   display: flex;
-  gap: 20px; /* Space between buttons */
+  gap: 20px;
   margin-bottom: 40px;
-  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -31,55 +31,54 @@
   display: inline-block;
   padding: 15px 30px;
   border-radius: 8px;
-  text-decoration: none; /* Remove underline from links */
+  text-decoration: none;
   font-size: 1.1em;
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .home-button.primary {
-  background-color: #007bff; /* Primary action button color */
+  background-color: var(--btn-primary);
   color: white;
-  border: 2px solid #007bff;
+  border: 2px solid var(--btn-primary);
 }
 
 .home-button.primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: var(--btn-primary-hover);
+  border-color: var(--btn-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .home-button.secondary {
-  background-color: #6c757d; /* Secondary action button color */
+  background-color: var(--btn-secondary);
   color: white;
-  border: 2px solid #6c757d;
+  border: 2px solid var(--btn-secondary);
 }
 
 .home-button.secondary:hover {
-  background-color: #5a6268;
-  border-color: #5a6268;
+  background-color: var(--btn-secondary-hover);
+  border-color: var(--btn-secondary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Optional: if you add a tertiary button */
 .home-button.tertiary {
   background-color: transparent;
-  color: #007bff;
-  border: 2px solid #007bff;
+  color: var(--btn-primary);
+  border: 2px solid var(--btn-primary);
 }
 
 .home-button.tertiary:hover {
-  background-color: #e7f3ff;
+  background-color: var(--btn-tertiary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
 
 .home-tagline {
   font-size: 1.2em;
-  color: #777;
+  color: var(--home-tagline);
   font-style: italic;
   margin-top: 20px;
 }
