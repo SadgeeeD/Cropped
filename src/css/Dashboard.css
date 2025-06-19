@@ -1,0 +1,33 @@
+/* Applies to cards and graph containers */
+.dashboard-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff; /* Light mode */
+  color: #1f2937; /* gray-800 */
+}
+
+html.dark .dashboard-card {
+  background-color: #2b2b2b; /* Dark gray */
+  color: #ffffff;
+}
+
+/* For subtitles like source or smaller text */
+.dashboard-subtext {
+  color: #6b7280;
+}
+
+html.dark .dashboard-subtext {
+  color: #d1d5db;
+}
+
+/* Optional: style chart axis/tick text white too */
+.recharts-cartesian-axis-tick-value,
+.recharts-text {
+  fill: #000;
+}
+
+html.dark .recharts-cartesian-axis-tick-value,
+html.dark .recharts-text {
+  fill: #fff !important;
+}

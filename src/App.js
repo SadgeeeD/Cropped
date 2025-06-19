@@ -4,8 +4,8 @@ import { FiSettings } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
-import { Navbar , Footer, Sidebar, ThemeSettings } from './components';
-import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register, ProfilePage} from './pages';
+import { Navbar , Sidebar } from './components';
+import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register, ProfilePage, Settings} from './pages';
 
 import {useStateContext} from './contexts/ContextProvider';
 
@@ -81,6 +81,8 @@ const App = () => {
               <Route path="/Login" element = {<Login /> } />
               <Route path="/Register" element = {<Register /> } />
               <Route path="/Profile" element={<ProfilePage />} />
+              <Route path="/Settings" element={<Settings />} />
+              {/* <Route path="/Help" element={<Help />} /> */}
             </Routes>
           </div>
           </div>

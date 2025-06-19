@@ -52,6 +52,7 @@ const ManualEntry = () => {
             placeholder="e.g. 5.2"
             required
             step="0.01" // Allows decimal inputs
+             min="0"
           />
         </div>
 
@@ -66,6 +67,7 @@ const ManualEntry = () => {
             placeholder="e.g. 0.1"
             required
             step="0.01"
+            min="0"
           />
         </div>
 
@@ -80,6 +82,7 @@ const ManualEntry = () => {
             placeholder="e.g. 0.05"
             required
             step="0.01"
+            min="0"
           />
         </div>
 
@@ -94,6 +97,7 @@ const ManualEntry = () => {
             placeholder="e.g. 7.8"
             required
             step="0.1"
+            min="0"
           />
         </div>
 
@@ -108,6 +112,7 @@ const ManualEntry = () => {
             placeholder="e.g. 15.3"
             required
             step="0.1"
+            min="0"
           />
         </div>
 

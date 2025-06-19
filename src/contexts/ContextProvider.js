@@ -19,23 +19,16 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState(getInitialMode());
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState({
-    chat: false,
-    cart: false,
     userProfile: false,
     notification: false,
   });
   const [screenSize, setScreenSize] = useState(undefined);
 
   const handleClick = (clicked) => {
-    setIsClicked({ ...isClicked, [clicked]: true });
-  };
-
-  const closeAll = () => {
     setIsClicked({
-      chat: false,
-      cart: false,
       userProfile: false,
       notification: false,
+      [clicked]: true,
     });
   };
 
@@ -73,7 +66,6 @@ export const ContextProvider = ({ children }) => {
         isClicked,
         setIsClicked,
         handleClick,
-        closeAll,
         screenSize,
         setScreenSize,
       }}

@@ -1,26 +1,30 @@
 .manual-entry-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  padding: 2rem;
+  min-height: calc(100vh - 80px); /* full height minus navbar */
+  background-color: var(--main-bg, #ffffff);
+  color: var(--main-text, #1f2937);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h2 {
+/* Dark mode override (assuming .dark class is on <html>) */
+html.dark .manual-entry-container {
+  background-color: #121212;
+  color: #e5e7eb;
+}
+
+.manual-entry-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 30px;
-  font-size: 2em;
-  font-weight: 600;
 }
 
 .manual-entry-form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Spacing between form groups */
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-group {
@@ -29,60 +33,50 @@ h2 {
 }
 
 .form-group label {
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #555;
-  font-size: 0.95em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: inherit;
 }
 
-.form-group input[type="number"],
+.form-group input,
 .form-group textarea {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 1em;
-  color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #111827;
+  font-size: 1rem;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
-.form-group input[type="number"]:focus,
+/* Dark input styling */
+html.dark .form-group input,
+html.dark .form-group textarea {
+  background-color: #1f1f1f;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+.form-group input:focus,
 .form-group textarea:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
   outline: none;
-}
-
-.form-group input[type="number"]::placeholder,
-.form-group textarea::placeholder {
-  color: #999;
-}
-
-textarea {
-  resize: vertical; /* Allow vertical resizing for notes */
-  min-height: 80px; /* Minimum height for textarea */
+  border-color: #16a34a; /* Tailwind green-600 */
 }
 
 .submit-button {
-  padding: 15px 25px;
-  background-color: #28a745; /* Green submit button */
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.1em;
+  align-self: center;
+  padding: 0.75rem 2rem;
+  background-color: #16a34a;
+  color: #fff;
   font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s, transform 0.2s;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  align-self: center; /* Center the button */
-  width: 50%; /* Make button take up 50% width */
-  margin-top: 20px;
 }
 
 .submit-button:hover {
-  background-color: #218838; /* Darker green on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
-}
-
-.submit-button:active {
-  background-color: #1e7e34;
-  transform: translateY(0);
+  background-color: #15803d;
+  transform: translateY(-2px);
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { MdPerson, MdSettings, MdHelp } from 'react-icons/md';
 import { useStateContext } from '../contexts/ContextProvider';
+import { Link } from 'react-router-dom'; // ← ADD THIS
 import avatar from '../data/avatar.jpg';
 
 const UserProfile = () => {
-  const { currentColor, closeAll } = useStateContext();
-
+  const { currentColor } = useStateContext();
   const user = null; // replace with actual user auth check
 
   return (
@@ -13,20 +13,14 @@ const UserProfile = () => {
       <div className="flex justify-between items-center mb-6">
         <p className="font-semibold text-lg dark:text-gray-200">User Profile</p>
         {user ? (
-          <button
-            onClick={closeAll}
-            className="text-sm text-gray-500 hover:text-gray-800"
-          >
-            Close
-          </button>
+          <button className="text-sm text-gray-500 hover:text-gray-800">Close</button>
         ) : (
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="text-sm text-blue-500 hover:underline"
-            onClick={closeAll}
           >
             Login / Register
-          </a>
+          </Link>
         )}
       </div>
 
@@ -39,18 +33,18 @@ const UserProfile = () => {
       </div>
 
       <div className="mt-5 space-y-4">
-        <div className="flex items-center gap-4 cursor-pointer">
+        <Link to="/profile" className="flex items-center gap-4 cursor-pointer hover:underline">
           <MdPerson className="text-xl" />
           <p className="text-md">Profile</p>
-        </div>
-        <div className="flex items-center gap-4 cursor-pointer">
+        </Link>
+        <Link to="/settings" className="flex items-center gap-4 cursor-pointer hover:underline">
           <MdSettings className="text-xl" />
           <p className="text-md">Settings</p>
-        </div>
-        <div className="flex items-center gap-4 cursor-pointer">
+        </Link>
+        <Link to="/help" className="flex items-center gap-4 cursor-pointer hover:underline">
           <MdHelp className="text-xl" />
           <p className="text-md">Help</p>
-        </div>
+        </Link>
       </div>
     </div>
   );

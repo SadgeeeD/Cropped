@@ -1,121 +1,122 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Tooltip } from 'react-tooltip'; // Assuming you have react-tooltip installed
-
-import { useRef } from 'react'; // ADD THIS LINE
-import debounce from 'lodash.debounce'; // ADD THIS LINE
-
+import { Tooltip } from 'react-tooltip';
+import debounce from 'lodash.debounce';
 
 import avatar from "../data/avatar.jpg";
-import { Notification, UserProfile } from '.'; // Assuming these are components you want to render
+import { Notification, UserProfile } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
-  <>
-    {/* Use data-tooltip-content instead of Tooltip component for direct tooltip */}
-    <button
-      type="button"
-      onClick={customFunc}
-      style={{ color }}
-      className="relative text-2xl rounded-full p-3 hover:bg-light-gray bg-white dark:bg-[#121212] text-black dark:text-white"
-      data-tooltip-id="my-tooltip" // Assign a common ID for all tooltips
-      data-tooltip-content={title} // Use data-tooltip-content for the title
-    >
-      {icon}
-      {dotColor && (
-        <span
-          style={{ background: dotColor }}
-          className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
-        />
-      )}
-    </button>
-  </>
+  <button
+    type="button"
+    onClick={customFunc}
+    style={{ color }}
+    className="relative text-2xl rounded-full p-3 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] bg-transparent dark:bg-transparent"
+    data-tooltip-id="my-tooltip"
+    data-tooltip-content={title}
+  >
+    {icon}
+    {dotColor && (
+      <span
+        style={{ background: dotColor }}
+        className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
+      />
+    )}
+  </button>
 );
 
 const Navbar = () => {
   const {
     activeMenu, setActiveMenu,
-    isClicked, 
-    handleClick, closeAll,
-    screenSize, setScreenSize // Make sure setScreenSize is available from context
+    isClicked, handleClick,
+    setIsClicked, screenSize, setScreenSize
   } = useStateContext();
+
+  const dropdownRef = useRef(null);
 
   const debouncedSetScreenSize = useRef(
     debounce((width) => {
       setScreenSize(width);
-    }, 200) // Debounce by 200ms. Adjust this delay as needed.
+    }, 200)
   ).current;
 
   useEffect(() => {
-    // CHANGE THIS LINE
     const handleResize = () => {
       debouncedSetScreenSize(window.innerWidth);
     };
 
     window.addEventListener('resize', handleResize);
-
-    // CHANGE THIS LINE
-    setScreenSize(window.innerWidth); // Call setScreenSize immediately on mount
+    setScreenSize(window.innerWidth);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      debouncedSetScreenSize.cancel(); // ADD THIS LINE for cleanup
+      debouncedSetScreenSize.cancel();
     };
   }, [setScreenSize, debouncedSetScreenSize]);
 
   useEffect(() => {
-    // This will now correctly react to screenSize changes
-    if (screenSize !== undefined) { // Add a check to ensure screenSize is not undefined on initial render
-      if (screenSize <= 900) {
-        setActiveMenu(false);
-      } else {
-        setActiveMenu(true);
-      }
+    if (screenSize !== undefined) {
+      setActiveMenu(screenSize > 900);
     }
-  }, [screenSize, setActiveMenu]); // Add setActiveMenu to dependencies
+  }, [screenSize, setActiveMenu]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsClicked({
+          chat: false,
+          cart: false,
+          userProfile: false,
+          notification: false,
+        });
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setIsClicked]);
 
   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative bg-white 
-    dark:bg-[#121212] text-gray-800 dark:text-gray-100">
+    <div className="flex justify-between p-2 relative bg-white dark:bg-[#1a1a1a] text-black dark:text-white shadow-sm">
       <NavButton
         title="Menu"
-        customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
-        color="black"
+        customFunc={() => setActiveMenu((prev) => !prev)}
+        color="inherit"
         icon={<AiOutlineMenu />}
       />
-      <div className="flex">
+
+      <div className="flex items-center gap-2" ref={dropdownRef}>
         <NavButton
           title="Notification"
           dotColor="rgb(254, 201, 15)"
           customFunc={() => handleClick('notification')}
-          color="black"
+          color="inherit"
           icon={<RiNotification3Line />}
         />
 
-        {/* Use a single Tooltip component from react-tooltip with a shared ID */}
         <Tooltip id="my-tooltip" />
 
         <div
-          className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+          className="flex items-center gap-2 cursor-pointer p-1 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] rounded-lg transition-colors"
           onClick={() => handleClick('userProfile')}
-          data-tooltip-id="my-tooltip" // Use the same ID
-          data-tooltip-content="User Profile" // Content for this specific element
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="User Profile"
         >
           <img
             className="rounded-full w-8 h-8"
             src={avatar}
             alt="user-profile"
           />
-          <p>
-            <span className="text-gray-400 text-sm">Hi,</span>{' '}
-            <span className="text-gray-400 font-bold ml-1 text-sm">
-              Kira
-            </span>
+          <p className="hidden sm:block">
+            <span className="text-gray-600 dark:text-gray-300 text-sm">Hi,</span>{' '}
+            <span className="font-semibold text-sm">Kira</span>
           </p>
-          <MdKeyboardArrowDown className="text-gray-400 text-sm" />
+          <MdKeyboardArrowDown className="text-gray-600 dark:text-gray-300 text-sm" />
         </div>
 
         {isClicked.notification && <Notification />}
