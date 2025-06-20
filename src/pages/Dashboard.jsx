@@ -75,7 +75,7 @@ switch (label) {
     case "Humidity":
     value = weatherData?.humidity !== undefined ? `${weatherData.humidity}%` : "N/A";
     break;
-    case "Light":
+    case "UV_Index":
     value = weatherData?.light !== undefined ? `${weatherData.light} lx` : "N/A";
     break;
     case "Wind Speed":

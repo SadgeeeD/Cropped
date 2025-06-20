@@ -79,7 +79,7 @@ function History() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 dark:bg-[#121212] min-h-screen text-gray-800 dark:text-white">
       <h1 className="text-2xl font-bold mb-4">Sensor History</h1>
 
       <div className="flex gap-4 mb-4">
@@ -103,11 +103,11 @@ function History() {
           <h2 className="text-lg font-semibold mb-4">Filters</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Farm Location</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">Farm Location</label>
               <div className="flex flex-col gap-1 max-h-40 overflow-y-auto p-2 bg-white rounded border border-gray-200">
 
                 {/* Show All Farms Checkbox */}
-                <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-gray-100 transition font-semibold">
+                <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-blue-100 dark:hover:bg-blue-900 transition">
                   <input
                     type="checkbox"
                     checked={filters.farmIds.length === farms.length}
@@ -121,14 +121,14 @@ function History() {
                     }}
                     className="h-4 w-4 rounded text-blue-600 border-gray-300 focus:ring focus:ring-blue-200"
                   />
-                  <span className="text-sm text-gray-800">Show All Farms</span>
+                  <span className="text-sm text-gray-700 dark:text-white">Show All Farms</span>
                 </label>
 
                 {/* Individual Farm Checkboxes */}
                 {farms.map(farm => (
                   <label
                     key={farm.FarmId}
-                    className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-gray-50 transition"
+                    className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-blue-100 dark:hover:bg-blue-900 transition"
                   >
                     <input
                       type="checkbox"
@@ -145,7 +145,7 @@ function History() {
                       }}
                       className="h-4 w-4 rounded text-blue-600 border-gray-300 focus:ring focus:ring-blue-200"
                     />
-                    <span className="text-sm text-gray-700">{farm.Location}</span>
+                    <span className="text-sm text-gray-700 dark:text-white">{farm.Location}</span>
                   </label>
                 ))}
               </div>
@@ -153,11 +153,11 @@ function History() {
 
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sensors</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">Sensors</label>
               <div className="flex flex-col gap-1 max-h-40 overflow-y-auto p-2 bg-white rounded border border-gray-200">
                 
                 {/* Show All Checkbox */}
-                <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-gray-100 transition font-semibold">
+                <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-blue-100 dark:hover:bg-blue-900 transition">
                   <input
                     type="checkbox"
                     checked={filters.sensorIds.length === sensors.length}
@@ -171,7 +171,7 @@ function History() {
                     }}
                     className="h-4 w-4 rounded text-blue-600 border-gray-300 focus:ring focus:ring-blue-200"
                   />
-                  <span className="text-sm text-gray-800">Show All Sensors</span>
+                  <span className="text-sm text-gray-700 dark:text-white">Show All Sensors</span>
                 </label>
 
                 {/* Individual Sensor Checkboxes */}
@@ -180,7 +180,7 @@ function History() {
                   return (
                     <label
                       key={sensor.SensorId}
-                      className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-gray-50 transition"
+                      className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-blue-100 dark:hover:bg-blue-900 transition"
                     >
                       <input
                         type="checkbox"
@@ -197,7 +197,7 @@ function History() {
                         }}
                         className="h-4 w-4 rounded text-blue-600 border-gray-300 focus:ring focus:ring-blue-200"
                       />
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-700 dark:text-white">
                         {sensor.Name} ({unit})
                       </span>
                     </label>
@@ -217,7 +217,7 @@ function History() {
                   min={minDate}
                   max={filters.endDate || maxDate}
                   onChange={(e) => setFilters(f => ({ ...f, startDate: e.target.value }))}
-                  className="w-full border px-3 py-2 rounded"
+                  className="w-full border px-3 py-2 rounded bg-white dark:bg-[#3a3a3a] dark:text-white dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300"
                 />
               </div>
               <div>
@@ -228,7 +228,7 @@ function History() {
                   min={filters.startDate || minDate}
                   max={maxDate}
                   onChange={(e) => setFilters(f => ({ ...f, endDate: e.target.value }))}
-                  className="w-full border px-3 py-2 rounded"
+                  className="w-full border px-3 py-2 rounded bg-white dark:bg-[#3a3a3a] dark:text-white dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300"
                 />
               </div>
             </div>
@@ -242,14 +242,14 @@ function History() {
                   placeholder="Min Value"
                   value={filters.minValue}
                   onChange={(e) => setFilters(f => ({ ...f, minValue: e.target.value }))}
-                  className="w-full border px-3 py-2 rounded"
+                  className="w-full border px-3 py-2 rounded bg-white dark:bg-[#3a3a3a] dark:text-white dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300"
                 />
                 <input
                   type="number"
                   placeholder="Max Value"
                   value={filters.maxValue}
                   onChange={(e) => setFilters(f => ({ ...f, maxValue: e.target.value }))}
-                  className="w-full border px-3 py-2 rounded mt-2"
+                  className="w-full border px-3 py-2 rounded bg-white dark:bg-[#3a3a3a] dark:text-white dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300"
                 />
               </div>
             </div>

@@ -1,33 +1,46 @@
-/* Applies to cards and graph containers */
-.dashboard-card {
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: #ffffff; /* Light mode */
-  color: #1f2937; /* gray-800 */
+/* Dashboard.css */
+.dashboard-container {
+  transition: background-color 0.3s ease;
 }
 
-html.dark .dashboard-card {
-  background-color: #2b2b2b; /* Dark gray */
-  color: #ffffff;
+.dark .dashboard-container {
+  background-color: #121212;
+  color: white;
 }
 
-/* For subtitles like source or smaller text */
-.dashboard-subtext {
-  color: #6b7280;
+.dark .bg-white {
+  background-color: #282828 !important;
+  color: white;
 }
 
-html.dark .dashboard-subtext {
-  color: #d1d5db;
+.dark .text-gray-600 {
+  color: #cccccc;
 }
 
-/* Optional: style chart axis/tick text white too */
-.recharts-cartesian-axis-tick-value,
-.recharts-text {
-  fill: #000;
+.dark .text-gray-400 {
+  color: #999999;
 }
 
-html.dark .recharts-cartesian-axis-tick-value,
-html.dark .recharts-text {
-  fill: #fff !important;
+.dark .bg-gray-100 {
+  background-color: #1e1e1e;
+}
+
+.dark .bg-gray-50 {
+  background-color: #121212;
+}
+
+.dark .shadow {
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+}
+
+/* Style dropdowns in dark mode */
+.dark select {
+  background-color: #282828;
+  color: white;
+  border: 1px solid #444;
+}
+
+.dark select option {
+  background-color: #282828;
+  color: white;
 }
