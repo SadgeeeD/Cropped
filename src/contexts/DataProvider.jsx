@@ -10,6 +10,9 @@ export const DataListProvider = ({ children }) => {
   const [sensorReadings, setSensorReadings] = useState([]);
   const [sensors, setSensors] = useState([]);
   const [weather, setWeather] = useState([]);
+  const [plants, setPlants] = useState([]);
+  const [plantSpecies, setPlantSpecies] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState([]);
 
@@ -28,16 +31,22 @@ export const DataListProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // #region Weather API
-        const [farmsResponse, sensorsResponse, sensorReadingsResponse] = await Promise.all([
+        // #region APIs
+        const [farmsResponse, sensorsResponse, sensorReadingsResponse, plantsResponse, plantSpeciesResponse, userResponse] = await Promise.all([
           axios.get('http://localhost:5000/api/getFarms'),
           axios.get('http://localhost:5000/api/getSensors'),
           axios.get('http://localhost:5000/api/getSensorReadings'),
+          axios.get('http://localhost:5000/api/getPlants'),
+          axios.get('http://localhost:5000/api/getAllPlantSpecies'),
+          axios.get('http://localhost:5000/api/getUsers')
         ]);
 
         setFarms(farmsResponse.data);
         setSensors(sensorsResponse.data);
         setSensorReadings(sensorReadingsResponse.data);
+        setPlants(plantsResponse.data);
+        setPlantSpecies(plantSpeciesResponse.data);
+        setUsers(userResponse.data);
 
         const weatherResponse = await axios.get('http://localhost:5000/weather');
         const rawWeather = weatherResponse.data;
@@ -101,7 +110,7 @@ export const DataListProvider = ({ children }) => {
   }, []);
 
   return (
-    <DataContext.Provider value={{farms, sensorReadings, loading , weather, sensors, notifications}}>
+    <DataContext.Provider value={{farms, sensors, sensorReadings, plants, plantSpecies, users, loading , weather,  notifications}}>
       {children}
     </DataContext.Provider>
   );

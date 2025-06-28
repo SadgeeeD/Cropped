@@ -7,10 +7,8 @@ import { useStateContext } from '../contexts/ContextProvider.js';
 
 const Settings = () => {
   const {
-    setCurrentColor,
     setCurrentMode,
     currentMode,
-    currentColor,
     setScreenSize,
     screenSize
   } = useStateContext();
@@ -61,29 +59,7 @@ const Settings = () => {
       {/* Data & Privacy */}
       <section className="mb-8 border-t pt-4 dark:border-gray-700">
         <h2 className="text-xl font-semibold mb-2">Data & Privacy</h2>
-        <button className="text-blue-500 underline mr-4">Export My Data</button>
         <button className="text-red-500 underline">Delete Account</button>
-      </section>
-
-      {/* Language & Region */}
-      <section className="border-t pt-4 dark:border-gray-700">
-        <h2 className="text-xl font-semibold mb-2">Language & Region</h2>
-        <label className="block mb-2">
-          Language:
-          <select className="ml-2 border rounded px-2 py-1 dark:bg-[#2a2a2a] dark:text-white dark:border-gray-600">
-            <option>English</option>
-            <option>Chinese</option>
-            <option>Malay</option>
-            <option>Tamil</option>
-          </select>
-        </label>
-        <label className="block">
-          Units:
-          <select className="ml-2 border rounded px-2 py-1 dark:bg-[#2a2a2a] dark:text-white dark:border-gray-600">
-            <option>Metric (°C, cm)</option>
-            <option>Imperial (°F, in)</option>
-          </select>
-        </label>
       </section>
     </div>
   );

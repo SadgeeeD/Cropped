@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,15 +20,26 @@ const Login = () => {
     setLoading(true);
     setError("");
 
-    if (!formData.username || !formData.password) {
-      setError("Please enter both username and password.");
+    if (!formData.identifier || !formData.password) {
+      setError("Please enter both email/username and password.");
       setLoading(false);
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/login", formData);
-      localStorage.setItem("token", res.data.token);
+      const res = await axios.post("http://localhost:5000/api/login", {
+        identifier: formData.identifier,
+        password: formData.password,
+      });
+
+      // ✅ Call login() with the user data
+      login(res.data.user); // This stores it in context and localStorage
+
+      // Optional: also store token if needed
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      }
+
       alert("Login success!");
       navigate("/dashboard");
     } catch (err) {
@@ -54,13 +67,13 @@ const Login = () => {
         <div className="space-y-4">
           <input
             type="text"
-            name="username"
-            placeholder="Username"
-            value={formData.username}
+            name="identifier"
+            placeholder="Email/Username"
+            value={formData.identifier}
             onChange={handleChange}
             className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#3a3a3a] text-gray-800 dark:text-white p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
             disabled={loading}
-            aria-label="Username"
+            aria-label="Email or Username"
           />
           <input
             type="password"

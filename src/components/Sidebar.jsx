@@ -8,7 +8,7 @@ import { links } from '../data/Links';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = () => {
-  const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { activeMenu, setActiveMenu, currentMode, setCurrentMode, screenSize } = useStateContext();
 
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -17,7 +17,7 @@ const Sidebar = () => {
   };
 
   const activeLink =
-    'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-white bg-green-500 m-2';
+    'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-white bg-green-500 dark:bg-green-600 m-2';
 
   const normalLink =
     'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] m-2 transition';
@@ -32,7 +32,8 @@ const Sidebar = () => {
               onClick={() => setActiveMenu(false)}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
             >
-              <SiShopware /> <span>Cropped</span>
+              <SiShopware className="text-gray-900 dark:text-white" />
+              <span>Cropped</span>
             </Link>
             <button
               type="button"
@@ -62,7 +63,7 @@ const Sidebar = () => {
                       isActive ? activeLink : normalLink
                     }
                   >
-                    <span className="text-lg">{link.icon}</span>
+                    <span className="text-lg text-gray-800 dark:text-gray-200">{link.icon}</span>
                     <span className="capitalize">{link.name}</span>
                   </NavLink>
                 ))}

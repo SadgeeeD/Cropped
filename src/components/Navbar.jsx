@@ -5,9 +5,10 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
 import debounce from 'lodash.debounce';
 
-import avatar from "../data/avatar.jpg";
+import avatar from "../data/Guest_Avatar.jpg";
 import { Notification, UserProfile } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
+import { useAuth } from "../contexts/AuthContext";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <button
@@ -34,6 +35,8 @@ const Navbar = () => {
     isClicked, handleClick,
     setIsClicked, screenSize, setScreenSize
   } = useStateContext();
+
+  const { user, logout } = useAuth();
 
   const dropdownRef = useRef(null);
 
@@ -67,8 +70,6 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsClicked({
-          chat: false,
-          cart: false,
           userProfile: false,
           notification: false,
         });
@@ -108,13 +109,15 @@ const Navbar = () => {
           data-tooltip-content="User Profile"
         >
           <img
-            className="rounded-full w-8 h-8"
-            src={avatar}
+            className="rounded-full w-8 h-8 object-cover"
+            src={user?.image || avatar}
             alt="user-profile"
           />
           <p className="hidden sm:block">
             <span className="text-gray-600 dark:text-gray-300 text-sm">Hi,</span>{' '}
-            <span className="font-semibold text-sm">Kira</span>
+            <span className="font-semibold text-sm">
+              {user?.username || user?.email?.split('@')[0] || "Guest"}
+            </span>
           </p>
           <MdKeyboardArrowDown className="text-gray-600 dark:text-gray-300 text-sm" />
         </div>
