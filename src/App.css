@@ -99,7 +99,8 @@ th, td {
   --btn-secondary: #6c757d;
   --btn-secondary-hover: #5a6268;
 
-  --btn-tertiary-hover: #e7f3ff;
+  --btn-tertiary: #FF6B6B;
+  --btn-tertiary-hover: #fd3c3c;
 }
 
 .dark {
@@ -114,7 +115,7 @@ th, td {
   --btn-secondary: #495057;
   --btn-secondary-hover: #343a40;
 
-  --btn-tertiary-hover: #1e1e1e;
+  --btn-tertiary-hover: #d35e5e;
 }
 /* #endregion */
 

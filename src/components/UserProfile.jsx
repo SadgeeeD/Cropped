@@ -58,10 +58,6 @@ const UserProfile = () => {
           <MdSettings className="text-xl" />
           <p className="text-md">Settings</p>
         </Link>
-        <Link to="/help" className="flex items-center gap-4 cursor-pointer hover:underline">
-          <MdHelp className="text-xl" />
-          <p className="text-md">Help</p>
-        </Link>
       </div>
     </div>
   );

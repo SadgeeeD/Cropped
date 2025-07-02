@@ -1,30 +1,68 @@
 .manual-entry-container {
   padding: 2rem;
-  min-height: calc(100vh - 80px); /* full height minus navbar */
-  background-color: var(--main-bg, #ffffff);
-  color: var(--main-text, #1f2937);
+  min-height: calc(100vh - 80px);
+  background-color: var(--home-bg);
+  color: var(--home-text);
   transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-/* Dark mode override (assuming .dark class is on <html>) */
 html.dark .manual-entry-container {
   background-color: #121212;
   color: #e5e7eb;
 }
 
-.manual-entry-container h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
+/* Shared Panel Styling */
+.manual-entry-container .panel {
+  background-color: var(--home-bg);
+  color: var(--home-text);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.dark .manual-entry-container .panel {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Table Styling */
+.manual-entry-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.manual-entry-container th,
+.manual-entry-container td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #d1d5db;
+}
+
+html.dark .manual-entry-container th,
+html.dark .manual-entry-container td {
+  border-color: #374151;
+}
+
+.manual-entry-container th {
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Section Headers */
+.manual-entry-container h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Form */
 .manual-entry-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -35,48 +73,55 @@ html.dark .manual-entry-container {
 .form-group label {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: inherit;
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  background-color: #f9fafb;
-  color: #111827;
-  font-size: 1rem;
-  transition: border-color 0.3s, background-color 0.3s;
+  background-color: var(--home-bg);
+  color: var(--home-text);
+  border: 1px solid #ccc;
 }
 
-/* Dark input styling */
 html.dark .form-group input,
+html.dark .form-group select,
 html.dark .form-group textarea {
-  background-color: #1f1f1f;
-  color: #f3f4f6;
-  border-color: #374151;
+  border: 1px solid #444;
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #16a34a; /* Tailwind green-600 */
+  border-color: #16a34a;
 }
 
-.submit-button {
-  align-self: center;
-  padding: 0.75rem 2rem;
+/* Buttons */
+.submit-button,
+.add-button {
+  padding: 0.75rem 1.5rem;
   background-color: #16a34a;
-  color: #fff;
+  color: white;
   font-weight: 600;
-  font-size: 1rem;
   border: none;
   border-radius: 0.5rem;
-  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover,
+.add-button:hover {
+  background-color: #15803d;
+}
+
+.remove-button {
+  color: #ef4444;
+  font-size: 1.25rem;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-.submit-button:hover {
-  background-color: #15803d;
-  transform: translateY(-2px);
+.remove-button:hover {
+  color: #dc2626;
 }

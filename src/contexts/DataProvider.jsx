@@ -1,4 +1,4 @@
-// frontend/src/components/FarmList.jsx
+// frontend/src/contexts/DataProvider.jsx
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
@@ -19,12 +19,12 @@ export const DataListProvider = ({ children }) => {
   const THRESHOLDS = {
   'pH': { min: 6.5, max: 7.5 },
   'EC/TDS': { min: 500, max: 2000 }, // µS/cm
-  'water_temperature': { min: 20, max: 28 },
+  'water_temperature': { min: 20, max: 30 },
   'dissolved_oxygen': { min: 5, max: 8 },
-  'chlorophyll': { min: 35, max: 50 }, // SPAD
-  'ammonia': { min: 0, max: 0.5 },
-  'nitrite': { min: 0, max: 0.5 },
-  'nitrate': { min: 40, max: 100 },
+  'chlorophyll': { min: 5, max: 15 }, // SPAD
+  'ammonia': { min: 0, max: 8.0 },
+  'nitrite': { min: 0, max: 0.1 },
+  'nitrate': { min: 0, max: 40 },
 };
 
 

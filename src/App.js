@@ -1,19 +1,22 @@
-import React , { useEffect } from 'react';
+import React , { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import { FiSettings } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 import { Navbar , Sidebar } from './components';
 import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register, ProfilePage, Settings} from './pages';
 
-import {useStateContext} from './contexts/ContextProvider';
+import { useStateContext } from './contexts/ContextProvider';
+import { useData } from './contexts/DataProvider';
+import AlertBubble from './components/AlertBubble';
 
 
 import './App.css'
 
 const App = () => {
-  const { activeMenu, currentMode, setCurrentMode } = useStateContext();
+  const { activeMenu, currentMode } = useStateContext();
+  const { notifications } = useData();
+  const [showBubble, setShowBubble] = useState(true);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -28,25 +31,17 @@ const App = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [currentMode]);
 
+  const outOfRangeOrOfflineAlerts = notifications.filter(
+    (n) =>
+      (n.type === 'out_of_range' || n.type === 'offline') &&
+      n.enabled !== false
+  );
 
   return (
     <div>
       
     <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
-          <div className="fixed right-4 bottom-4" style={{ zIndex: 1000 }}>
-            <button
-              type="button"
-              className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white"
-              style={{ background: 'green', borderRadius: '50%' }}
-              data-tooltip-id="settings-tooltip"
-              data-tooltip-content="Settings"
-              data-tooltip-place="top"
-            >
-              <FiSettings />
-            </button>
-            <Tooltip id="settings-tooltip" />
-          </div>
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark
             dark:bg-secondary-dark-bg 
@@ -67,6 +62,13 @@ const App = () => {
           }>
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
               <Navbar />
+              {/* AlertBubble shows just below Navbar */}
+              {showBubble && outOfRangeOrOfflineAlerts.length > 0 && (
+                <AlertBubble
+                  alerts={outOfRangeOrOfflineAlerts}
+                  onClose={() => setShowBubble(false)}
+                />
+              )}
             </div>
           
 
