@@ -10,6 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
@@ -27,7 +29,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/login", {
+      const res = await axios.post(`${BASE_URL}/api/login`, {
         identifier: formData.identifier,
         password: formData.password,
       });

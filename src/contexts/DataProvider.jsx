@@ -14,17 +14,19 @@ export const DataListProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         // #region APIs
         const [farmsResponse, sensorsResponse, sensorReadingsResponse, plantsResponse, plantSpeciesResponse, userResponse] = await Promise.all([
-          axios.get('http://localhost:5000/api/getFarms'),
-          axios.get('http://localhost:5000/api/getSensors'),
-          axios.get('http://localhost:5000/api/getSensorReadings'),
-          axios.get('http://localhost:5000/api/getPlants'),
-          axios.get('http://localhost:5000/api/getAllPlantSpecies'),
-          axios.get('http://localhost:5000/api/getUsers'),
+          axios.get(`${BASE_URL}/api/getFarms`),
+          axios.get(`${BASE_URL}/api/getSensors`),
+          axios.get(`${BASE_URL}/api/getSensorReadings`),
+          axios.get(`${BASE_URL}/api/getPlants`),
+          axios.get(`${BASE_URL}/api/getAllPlantSpecies`),
+          axios.get(`${BASE_URL}/api/getUsers`),
         ]);
 
         setFarms(farmsResponse.data);
@@ -34,7 +36,7 @@ export const DataListProvider = ({ children }) => {
         setPlantSpecies(plantSpeciesResponse.data);
         setUsers(userResponse.data);
 
-        const weatherResponse = await axios.get('http://localhost:5000/weather');
+        const weatherResponse = await axios.get(`${BASE_URL}/weather`);
         const rawWeather = weatherResponse.data;
 
         const index = rawWeather?.hourly?.time?.length - 1;

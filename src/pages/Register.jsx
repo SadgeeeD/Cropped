@@ -13,6 +13,8 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
@@ -44,7 +46,7 @@ const Register = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/register", formData);
+      const res = await axios.post(`${BASE_URL}/api/register`, formData);
       setSuccess("Registration successful! Redirecting to login...");
       setTimeout(() => {
         navigate("/login");

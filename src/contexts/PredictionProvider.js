@@ -6,9 +6,11 @@ const PredictionContext = createContext();
 export const PredictionProvider = ({ children }) => {
   const [prediction, setPrediction] = useState(null);
 
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const classifySpecies = async (base64Image) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/classifySpecies', { image: base64Image });
+      const response = await axios.post(`${BASE_URL}/api/classifySpecies`, { image: base64Image });
       setPrediction(response.data);
       return response.data;
     } catch (error) {
@@ -21,7 +23,7 @@ export const PredictionProvider = ({ children }) => {
 
   const classifyHealth = async (base64Image) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/classifyHealth', { image: base64Image });
+      const response = await axios.post(`${BASE_URL}/api/classifyHealth`, { image: base64Image });
       setPrediction(response.data);
       return response.data;
     } catch (error) {
