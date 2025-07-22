@@ -78,6 +78,19 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+.home-button.quaternary {
+  background-color: var(--btn-quaternary);
+  color: white;
+  border: 2px solid var(--btn-quaternary);
+}
+
+.home-button.quaternary:hover {
+  background-color: var(--btn-quaternary-hover);
+  border-color: var(--btn-quaternary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .home-tagline {
   font-size: 1.2em;
   color: var(--home-tagline);

@@ -1,13 +1,14 @@
   import React from 'react';
   import { Link } from 'react-router-dom';
   import { useAuth } from '../contexts/AuthContext';
-  import { useData } from '../contexts/DataProvider';
+  import { useStateContext } from '../contexts/ContextProvider';
   import '../css/Home.css';
 
   const Home = () => {
     const { user } = useAuth();
-    const { notifications } = useData();
+    const { notifications, alertsEnabled, screenSize } = useStateContext();
     const isLoggedIn = !!user;
+    
 
     // Show 5 most recent alerts
     const recentAlerts = notifications
@@ -25,6 +26,7 @@
                 <Link to="/Dashboard" className="home-button primary">Go to Dashboard</Link>
                 <Link to="/ManualEntry" className="home-button secondary">Enter New Data</Link>
                 <Link to="/History" className="home-button tertiary">View Past Records</Link>
+                <Link to="/Identifier" className="home-button quaternary">Identify Your Leaves</Link>
               </>
             ) : (
               <>
@@ -35,10 +37,15 @@
           </div>
 
           <p className="home-tagline">
-            Your insights for clearer waters.
+            {screenSize <= 480
+              ? "Optimized for mobile view."
+              : screenSize <= 768
+              ? "Tablet-friendly insights await."
+              : "Your insights for clearer waters."}
           </p>
 
           {/* Inline Recent Alerts */}
+          {alertsEnabled && (
           <section className="mt-8 w-full max-w-5xl">
             <h2 className="text-xl font-semibold mb-4">Urgent Alerts (Past 2 Weeks)</h2>
 
@@ -78,6 +85,7 @@
               </div>
             )}
           </section>
+          )}
         </div>
       </main>
     );

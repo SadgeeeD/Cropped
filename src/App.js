@@ -1,13 +1,13 @@
 import React , { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 import { Navbar , Sidebar } from './components';
 import { Home, Dashboard, Identifier, ManualEntry, History, Login, Register, ProfilePage, Settings} from './pages';
 
+import { DataListProvider } from './contexts/DataProvider';
+import { PredictionProvider } from './contexts/PredictionProvider';
 import { useStateContext } from './contexts/ContextProvider';
-import { useData } from './contexts/DataProvider';
 import AlertBubble from './components/AlertBubble';
 
 
@@ -15,7 +15,7 @@ import './App.css'
 
 const App = () => {
   const { activeMenu, currentMode } = useStateContext();
-  const { notifications } = useData();
+  const { notifications } = useStateContext();
   const [showBubble, setShowBubble] = useState(true);
 
   useEffect(() => {
@@ -76,15 +76,28 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/Home" element = {<Home /> } />
-              <Route path="/Dashboard" element = {<Dashboard /> } />
-              <Route path="/ManualEntry" element = {<ManualEntry /> } />
-              <Route path="/History" element = {<History /> } />
-              <Route path="/Identifier" element = {<Identifier /> } />
+              <Route path="/Dashboard" element = {
+                <DataListProvider>
+                  <Dashboard />
+                </DataListProvider>
+              } />
+              <Route path="/ManualEntry" element = {
+                <DataListProvider>
+                  <ManualEntry />
+                </DataListProvider> } />
+              <Route path="/History" element = {
+                <DataListProvider>
+                  <History />
+                </DataListProvider>} />
+              <Route path="/Identifier" element = {
+                <PredictionProvider>
+                  <Identifier />
+                </PredictionProvider>
+              } />
               <Route path="/Login" element = {<Login /> } />
               <Route path="/Register" element = {<Register /> } />
               <Route path="/Profile" element={<ProfilePage />} />
               <Route path="/Settings" element={<Settings />} />
-              {/* <Route path="/Help" element={<Help />} /> */}
             </Routes>
           </div>
           </div>

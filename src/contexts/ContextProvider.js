@@ -1,5 +1,6 @@
 // src/contexts/ContextProvider.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const StateContext = createContext();
 
@@ -24,6 +25,72 @@ export const ContextProvider = ({ children }) => {
   });
   const [screenSize, setScreenSize] = useState(undefined);
 
+  // Notification-specific state
+  const [notifications, setNotifications] = useState([]);
+  const [alertsEnabled, setAlertsEnabled] = useState(() => {
+    const saved = localStorage.getItem('alertsEnabled');
+    return saved === null ? true : JSON.parse(saved);
+  });
+
+  const THRESHOLDS = {
+    'pH': { min: 6.5, max: 7.5 },
+    'EC/TDS': { min: 500, max: 2000 },
+    'water_temperature': { min: 20, max: 30 },
+    'dissolved_oxygen': { min: 5, max: 8 },
+    'chlorophyll': { min: 5, max: 15 },
+    'ammonia': { min: 0, max: 8.0 },
+    'nitrite': { min: 0, max: 0.1 },
+    'nitrate': { min: 0, max: 40 },
+  };
+
+  useEffect(() => {
+    const fetchSensorData = async () => {
+      try {
+        const [sensorsResponse, sensorReadingsResponse] = await Promise.all([
+          axios.get('http://localhost:5000/api/getSensors'),
+          axios.get('http://localhost:5000/api/getSensorReadings')
+        ]);
+
+        const sensors = sensorsResponse.data;
+        const readings = sensorReadingsResponse.data;
+
+        const alerts = [];
+
+        for (const reading of readings) {
+          const sensor = sensors.find(s => s.SensorId === reading.SensorId);
+          if (!sensor) continue;
+
+          const type = sensor.Type;
+          const thresholds = THRESHOLDS[type];
+
+          if (thresholds) {
+            if (reading.Value < thresholds.min) {
+              alerts.push({
+                sensorName: sensor.Name,
+                message: `${type} too low: ${reading.Value}`,
+                severity: 'low',
+                timestamp: reading.Timestamp,
+              });
+            } else if (reading.Value > thresholds.max) {
+              alerts.push({
+                sensorName: sensor.Name,
+                message: `${type} too high: ${reading.Value}`,
+                severity: 'high',
+                timestamp: reading.Timestamp,
+              });
+            }
+          }
+        }
+
+        setNotifications(alerts);
+      } catch (error) {
+        console.error("❌ Notification fetch error:", error);
+      }
+    };
+
+    fetchSensorData();
+  }, []);
+
   const handleClick = (clicked) => {
     setIsClicked({
       userProfile: false,
@@ -32,14 +99,12 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
-  // Apply theme to <html>
   useEffect(() => {
     const modeToApply = getEffectiveTheme(currentMode);
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(modeToApply);
   }, [currentMode]);
 
-  // Listen to system preference changes (only if using 'system')
   useEffect(() => {
     if (currentMode !== 'system') return;
 
@@ -53,6 +118,16 @@ export const ContextProvider = ({ children }) => {
     mediaQuery.addEventListener('change', handleSystemChange);
     return () => mediaQuery.removeEventListener('change', handleSystemChange);
   }, [currentMode]);
+
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
+
+    // Set initial screen size
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <StateContext.Provider
@@ -68,6 +143,9 @@ export const ContextProvider = ({ children }) => {
         handleClick,
         screenSize,
         setScreenSize,
+        notifications,
+        alertsEnabled,
+        setAlertsEnabled,
       }}
     >
       {children}

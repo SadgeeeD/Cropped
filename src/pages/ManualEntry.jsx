@@ -244,7 +244,7 @@ const ManualEntry = () => {
           <button
             type="button"
             onClick={addEntry}
-            className="mb-4 px-3 py-1 rounded font-semibold bg-[var(--btn-secondary)] hover:bg-[var(--btn-secondary-hover)] text-white"
+            className="mb-4 px-3 py-1 rounded font-semibold bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] text-white"
           >
             + Add Another Reading
           </button>

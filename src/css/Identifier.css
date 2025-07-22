@@ -1,0 +1,148 @@
+.identifier-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  background: transparent;
+}
+
+.identifier-container {
+  width: 100%;
+  max-width: 700px;
+  background-color: white;
+  color: black;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+}
+
+.dark .identifier-container {
+  background-color: #3a3a3a;
+  color: white;
+}
+
+.identifier-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.identifier-tab {
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 4px solid gray;
+  color: gray;
+  transition: all 0.2s ease-in-out;
+}
+
+.identifier-tab.active {
+  color: #22c55e; /* Tailwind green-500 */
+  border-color: #22c55e;
+  font-weight: 600;
+}
+
+.identifier-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.identifier-warning {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #eab308; /* Tailwind yellow-500 */
+  margin-bottom: 1.5rem;
+}
+
+.dark .identifier-warning {
+  color: #facc15;
+}
+
+.identifier-upload {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.upload-input {
+  font-size: 1rem;
+}
+
+.identifier-error {
+  color: #ef4444; /* Tailwind red-500 */
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.identifier-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.identifier-preview img {
+  width: 240px;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.identifier-loading {
+  font-size: 1.2rem;
+  color: #3b82f6; /* Tailwind blue-500 */
+  text-align: center;
+}
+
+.identifier-result {
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.dark .identifier-result {
+  background-color: #2f2f2f;
+}
+
+
+
+.identifier-tips {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.tips-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.tips-bubbles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tip-bubble {
+  background-color: #e0f7fa;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #00796b;
+  border: 1px solid #b2dfdb;
+  transition: background-color 0.3s;
+}
+
+.tip-bubble:hover {
+  background-color: #b2dfdb;
+}

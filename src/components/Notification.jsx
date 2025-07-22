@@ -1,9 +1,9 @@
 // src/components/Notification.jsx
 import React from 'react';
-import { useData } from '../contexts/DataProvider';
+import { useStateContext } from '../contexts/ContextProvider';
 
 const Notification = () => {
-  const { notifications } = useData();
+  const { notifications } = useStateContext();
 
   return (
     <div className="nav-item absolute right-5 top-16 bg-white dark:bg-[#42464D] p-6 rounded-lg w-96 z-50 shadow-lg">
