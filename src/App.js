@@ -96,7 +96,11 @@ const App = () => {
               } />
               <Route path="/Login" element = {<Login /> } />
               <Route path="/Register" element = {<Register /> } />
-              <Route path="/Profile" element={<ProfilePage />} />
+              <Route path="/Profile" element={
+                <DataListProvider>
+                  <ProfilePage />
+                </DataListProvider>
+              } />
               <Route path="/Settings" element={<Settings />} />
             </Routes>
           </div>

@@ -272,47 +272,21 @@ function Dashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-white p-4 rounded shadow">
-            <h2 className="text-lg font-semibold mb-2">Healthy</h2>
-            <div className="flex justify-center items-center mb-4">
-              <img src={leaf_icon} alt="Healthy Leaf" className="w-16 h-16" />
+        <div className="bg-white p-6 rounded shadow mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6">🌿 Plants</h2>
+        
+        <div className="flex justify-center gap-6 flex-wrap">
+          {[leaf1, leaf2, leaf3].map((imgSrc, i) => (
+            <div key={i} className="relative w-64 h-64 overflow-hidden rounded-xl shadow-lg transition-transform transform hover:scale-105">
+              <img
+                src={imgSrc}
+                alt={`Leaf ${i + 1}`}
+                className="object-cover w-full h-full rounded-xl"
+              />
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              <img src={leaf1} className="rounded shadow" alt="Leaf 1" />
-              <img src={leaf2} className="rounded shadow" alt="Leaf 2" />
-              <img src={leaf3} className="rounded shadow" alt="Leaf 3" />
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded shadow">
-            <h2 className="text-lg font-semibold mb-2">Plant</h2>
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="text-left p-2">Plant</th>
-                  <th className="text-left p-2">Health</th>
-                  <th className="text-left p-2">Growth Stage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { name: 'Peppermint', health: 'Healthy', stage: 'Seedling' },
-                  { name: 'Bok Choy', health: 'Healthy', stage: 'Vegetative' },
-                  { name: 'Nai Bai', health: 'Healthy', stage: 'Seedling' }
-                ].map((plant, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="p-2">{plant.name}</td>
-                    <td className="p-2">
-                      <span className="bg-green-100 text-green-700 px-2 py-1 rounded">{plant.health}</span>
-                    </td>
-                    <td className="p-2">{plant.stage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          ))}
         </div>
+      </div>
       </>
     );
   };

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const ProfilePage = () => {
-  const { farms } = useData();
+  const { farms = [] } = useData() || {};
   const navigate = useNavigate();
   const { user, logout, updateUser } = useAuth(); // ✅ include updateUser
   const [preview, setPreview] = useState(user?.image || avatar);
