@@ -16,7 +16,6 @@ export const DataListProvider = ({ children }) => {
 
   const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         // #region APIs
@@ -56,6 +55,7 @@ export const DataListProvider = ({ children }) => {
       }
     };
 
+ useEffect(() => {
     fetchData();
   }, []);
 
@@ -70,6 +70,7 @@ export const DataListProvider = ({ children }) => {
         users,
         loading,
         weather,
+        refetchData: fetchData
       }}
     >
       {children}

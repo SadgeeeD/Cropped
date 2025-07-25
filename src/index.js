@@ -6,6 +6,7 @@ import App from './App';
 import { ContextProvider } from './contexts/ContextProvider';
 import { AuthProvider } from './contexts/AuthContext';
 
+
 //Hooking React App to Root
 ReactDOM.render(
   <AuthProvider>
